@@ -206,6 +206,51 @@
     .detail h2 { font-size: 30px; margin: 4px 0 6px; }
     .where { margin: 0 0 8px; color: var(--muted); }
     .detail p { margin: 0 0 10px; }
+    .detail h3 {
+      margin: 18px 0 6px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .detail ul, .checklist ul { margin: 0; padding-left: 18px; }
+    .detail li { margin: 0 0 6px; }
+    .detail ul.book, .checklist ul { list-style: none; padding: 0; }
+    .detail ul.book li { margin: 0 0 10px; }
+    .detail ul.book a, .checklist a { color: var(--sea); text-underline-offset: 3px; }
+    .note-line { display: block; color: var(--muted); font-size: 14px; line-height: 1.45; margin-top: 2px; }
+    .badge {
+      display: inline-block;
+      margin: 0 6px 3px 0;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      vertical-align: 1px;
+    }
+    .badge.now { background: #f3d2c4; color: #7a2d14; }
+    .badge.month { background: #f6e3c4; color: #6b4a12; }
+    .badge.week { background: var(--moss); color: var(--forest); }
+    .badge.day { background: var(--foam); color: var(--sea); }
+    .checklist { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; align-items: start; }
+    .checklist article { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px 6px; }
+    .checklist h3 { margin: 0 0 10px; }
+    .checklist h3 .badge { font-size: 13px; padding: 4px 10px; }
+    .checklist li { display: grid; grid-template-columns: 64px 1fr; gap: 10px; margin: 0 0 12px; }
+    .day-tag {
+      align-self: start;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 10px;
+      padding: 3px 6px;
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      color: var(--ink);
+    }
+    .day-tag:hover { border-color: var(--forest); }
     .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
     .links a, .textlinks a {
       display: inline-block;
@@ -233,7 +278,7 @@
     .textlinks a { background: transparent; color: var(--sea); border: 0; padding: 0; border-radius: 0; text-decoration: underline; text-underline-offset: 3px; }
     footer { color: var(--muted); font-size: 14px; padding: 8px 0 40px; }
     @media (max-width: 900px) {
-      .stage, .cards { grid-template-columns: 1fr; }
+      .stage, .cards, .checklist { grid-template-columns: 1fr; }
       .map-wrap { position: static; }
       #map { height: 420px; }
       .cell { min-height: 64px; padding: 6px; }
@@ -305,6 +350,12 @@
       </aside>
     </div>
 
+    <section class="block" id="checklist">
+      <h2>Booking checklist</h2>
+      <p class="lede">Everything from the day pages in one list, sorted by when to book. It follows the hike switch above. Click a date to open that day.</p>
+      <div class="checklist" id="checklist-groups"></div>
+    </section>
+
     <section class="block">
       <h2>Domestic flights</h2>
       <p class="lede">National hops only. Fares move, especially in December — open the search and sort by price. Avianca, LATAM, Wingo and JetSMART cover the busy routes. Armenia–Medellín is Avianca only.</p>
@@ -365,7 +416,7 @@
             <a href="https://paramotrek.com/en/tour/summit-paramillo-del-quindio/" target="_blank" rel="noopener">Páramo Trek — summit</a>
             <a href="https://aventurecolombia.com/en/trips/paramillo-del-quindio-from-salento/" target="_blank" rel="noopener">Aventure Colombia</a>
             <a href="https://www.parquesnacionales.gov.co/nuestros-parques/parque-nacional-natural-los-nevados/" target="_blank" rel="noopener">Los Nevados, official</a>
-            <a href="https://linkdepago.parquesnacionales.gov.co/liquidacion?codpnn=P0002" target="_blank" rel="noopener">Tayrona entry payment</a>
+            <a href="https://parquetayrona.org/guides/fees-hours-closures/" target="_blank" rel="noopener">Tayrona fees and hours — tickets at the gate on the day</a>
           </div>
         </article>
         <article>
@@ -393,316 +444,8 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="trip.js"></script>
   <script>
-    const PLACES = {
-      bog: { name: "Bogotá", lat: 4.651, lng: -74.083, z: 11 },
-      salento: { name: "Salento", lat: 4.6374, lng: -75.5706, z: 12 },
-      santaelena: { name: "Santa Elena coffee farms", lat: 6.212, lng: -75.5, z: 12 },
-      cocora: { name: "Valle de Cocora", lat: 4.642, lng: -75.489, z: 12 },
-      playa: { name: "High farm, about 3,700 m", lat: 4.69, lng: -75.44, z: 12 },
-      paramillo: { name: "Paramillo del Quindío", lat: 4.713, lng: -75.385, z: 11 },
-      med: { name: "Medellín · El Poblado", lat: 6.2088, lng: -75.5674, z: 12 },
-      ctg: { name: "Cartagena · Getsemaní", lat: 10.422, lng: -75.547, z: 13 },
-      taganga: { name: "Taganga", lat: 11.267, lng: -74.193, z: 12 },
-      tayrona: { name: "Tayrona", lat: 11.316, lng: -74.028, z: 11 },
-      smr: { name: "Santa Marta airport", lat: 11.12, lng: -74.231, z: 11 }
-    };
-
-    const DAYS = {
-      5: {
-        cls: "bog", short: "Land", place: "bog",
-        region: "Saturday · Bogotá",
-        title: "Land in the evening",
-        where: "Sleep in Bogotá",
-        body: [
-          "International flight, into El Dorado in the evening. Taxi to the hotel. Nothing else planned.",
-          "If tomorrow’s Armenia flight is before 8:00, an airport hotel is the calmer choice. Hotel Coco in Chapinero is the nicer one-night stay when the flight is later."
-        ],
-        links: [
-          ["Hotel Coco", "https://booking.hotelcoco.com.co/"],
-          ["Airport hotels", "https://www.google.com/maps/search/?api=1&query=hotels%20near%20El%20Dorado%20airport%20Bogota"]
-        ]
-      },
-      6: {
-        cls: "hike", short: "Trek 1", place: "cocora",
-        region: "Sunday · Valle de Cocora",
-        title: "Fly, then start walking",
-        where: "Overnight on a mountain farm, about 3,400 m",
-        body: [
-          "Book the earliest Sunday direct Bogotá → Armenia (about an hour). Avianca’s 06:25 often skips Sundays, so compare LATAM and JetSMART. Taxi to Salento is about an hour.",
-          "Trek day 1 starts late morning, not at 7:00. Jeep into Valle de Cocora, then cloud forest toward a farm such as La Argentina. The operator has to agree to that late start — say so when you book."
-        ],
-        links: [
-          ["BOG → AXM fares", "https://www.google.com/travel/flights?hl=en&curr=EUR&q=one%20way%20flights%20from%20BOG%20to%20AXM%20on%202026-12-06"],
-          ["SAWA 3-day trek", "https://sawa.travel/en/tour/paramillo-del-quindio-3-days/"],
-          ["Cocora on Maps", "https://www.google.com/maps/search/?api=1&query=Valle%20de%20Cocora%20Salento"]
-        ]
-      },
-      7: {
-        cls: "hike", short: "Summit", place: "paramillo",
-        region: "Monday · Los Nevados",
-        title: "Paramillo del Quindío",
-        where: "Aim for 4,750 m, sleep near 3,600 m",
-        body: [
-          "Páramo, wetlands, then the push up the old volcano if the weather holds. On a clear day you see Nevado del Tolima, Santa Isabel and Ruiz. The ice is gone, so this is a steep hike, not a glacier climb.",
-          "A registered guide and a park permit are required. They turn the group around if the cloud is down or someone is unwell. That is still the mountain day."
-        ],
-        links: [
-          ["Páramo Trek", "https://paramotrek.com/en/tour/summit-paramillo-del-quindio/"],
-          ["Montañas Colombianas", "https://montanascolombianas.com/paramillo-of-quindio-3-days-2-nights/?lang=en"],
-          ["Park page", "https://www.parquesnacionales.gov.co/nuestros-parques/parque-nacional-natural-los-nevados/"]
-        ]
-      },
-      8: {
-        cls: "hike", short: "Down", place: "salento",
-        region: "Tuesday · back to Salento",
-        title: "Long descent",
-        where: "Sleep in Salento",
-        body: [
-          "A different canyon on the way down, often Estrella de Agua and the Acaime hummingbirds, then the wax palms again and a jeep to town. It is a big downhill, about six or seven hours.",
-          "Be in Salento this evening. Tomorrow’s only direct to Medellín leaves Armenia around 15:20, and the airport is an hour from town."
-        ],
-        links: [
-          ["El Mirador del Cocora", "https://www.elmiradordelcocora.com/"],
-          ["Salento plaza", "https://www.google.com/maps/search/?api=1&query=Plaza%20de%20Bolivar%20Salento"]
-        ]
-      },
-      9: {
-        cls: "med", short: "Medellín", place: "med",
-        region: "Wednesday · Medellín",
-        title: "Land, then the suit",
-        where: "El Poblado",
-        body: [
-          "Leave Salento late morning. Avianca AXM → MDE leaves around 15:20 and lands at Rionegro about an hour later. The taxi down to El Poblado or Envigado is 45–60 minutes.",
-          "Suit fitting at about 18:00. Book it by WhatsApp before the trip and send your measurements, so the suit is already pulled and only needs small alterations. Casa París closes at 19:00. Tonight in Provenza is a short walk from the hotel and also closes at 19:00.",
-          "Ask for alterations ready by the morning of the 10th. Then an easy dinner in Provenza."
-        ],
-        links: [
-          ["AXM → MDE fares", "https://www.google.com/travel/flights?hl=en&curr=EUR&q=one%20way%20flights%20from%20AXM%20to%20MDE%20on%202026-12-09"],
-          ["Casa París suits", "https://casaparis.com.co/pages/traje-de-hombre"],
-          ["Tonight, Provenza", "https://www.google.com/maps/search/?api=1&query=Tonight%20alquiler%20de%20trajes%20Carrera%2033%207-69%20Medellin"],
-          ["Marquee Hotel", "https://marqueemedellin.com/"]
-        ]
-      },
-      10: {
-        cls: "wed", short: "Wedding", place: "med",
-        region: "Thursday · Medellín",
-        title: "The wedding",
-        where: "Keep the whole day free",
-        body: [
-          "Collect the altered suit in the morning if it was not ready last night. Nothing else goes on this day. Venue, time and dress code come from the invitation.",
-          "Stay in El Poblado or Laureles so the evening transfer is short."
-        ],
-        links: [
-          ["Invitation", "https://lau-y-luisfer.my.canva.site/"]
-        ]
-      },
-      11: {
-        cls: "med", short: "City", place: "med",
-        region: "Friday · Medellín",
-        title: "Comuna 13, then Provenza",
-        where: "Out from El Poblado",
-        body: [
-          "Late start after the wedding. Return the suit, then Comuna 13 escalators and street art. Casa de la Memoria if you still want a museum.",
-          "The free walking tour runs from Provenza to Manila if you want a guide and a story. Plaza Botero can wait — it was the one you were less interested in."
-        ],
-        links: [
-          ["Comuna 13", "https://www.google.com/maps/search/?api=1&query=Escaleras+Electricas+Comuna+13+Medellin"],
-          ["Casa de la Memoria", "https://www.google.com/maps/search/?api=1&query=Museo+Casa+de+la+Memoria+Medellin"],
-          ["Walking tour", "https://www.guruwalk.com/walks/38407-the-great-poblado-free-tour-from-provenza-to-manila"]
-        ]
-      },
-      12: {
-        cls: "coffee", short: "Coffee", place: "santaelena",
-        region: "Saturday · Santa Elena",
-        title: "Coffee farm with your friends",
-        where: "Hills above Medellín, back for dinner",
-        body: [
-          "Santa Elena is 25–45 minutes above the city, so the coffee farm fits in a day. The shared farm tour leaves El Poblado at 10:00 every day, takes about five hours and includes lunch. If your friends drive, ask them about a farm they know.",
-          "Parque Arví is next door, so the cable car down is an easy way back. Pack tonight — Cartagena is tomorrow."
-        ],
-        links: [
-          ["Santa Elena coffee tour", "https://www.beyondcolombia.com/tours/coffee-tour-medellin-farm-santa-elena/"],
-          ["Parque Arví", "https://www.google.com/maps/search/?api=1&query=Parque+Arvi+Medellin"],
-          ["Placita de Flórez", "https://www.google.com/maps/search/?api=1&query=Placita%20de%20Florez%20Medellin"]
-        ]
-      },
-      13: {
-        cls: "ctg", short: "Cartagena", place: "ctg",
-        region: "Sunday · Cartagena",
-        title: "Fly to the coast",
-        where: "Getsemaní, one night",
-        body: [
-          "Direct Medellín → Cartagena, about an hour and a quarter. Take a morning flight so the afternoon is the Walled City and sunset on the walls.",
-          "Stay in Getsemaní or the Old Town. Arsenal is the walkable one."
-        ],
-        links: [
-          ["MDE → CTG fares", "https://www.google.com/travel/flights?hl=en&curr=EUR&q=one%20way%20flights%20from%20MDE%20to%20CTG%20on%202026-12-13"],
-          ["Arsenal Hotel", "https://booking.arsenalhotel.com/en/?skip_mobile=1"],
-          ["Walled City", "https://www.google.com/maps/search/?api=1&query=Ciudad+Amurallada+Cartagena"]
-        ]
-      },
-      14: {
-        cls: "ctg", short: "Old town", place: "ctg",
-        region: "Monday · Cartagena",
-        title: "Walls, fort, Getsemaní",
-        where: "Still in Cartagena",
-        body: [
-          "Castillo San Felipe in the cooler hours, then the walls and Getsemaní at the end of the day. This is the full Cartagena day.",
-          "Skip a Rosario dive. You are on the road tomorrow, and scuba is in Taganga on the 16th."
-        ],
-        links: [
-          ["San Felipe", "https://www.google.com/maps/search/?api=1&query=Castillo+San+Felipe+de+Barajas"],
-          ["Getsemaní", "https://www.google.com/maps/search/?api=1&query=Getsemani+Cartagena"]
-        ]
-      },
-      15: {
-        cls: "coast", short: "Taganga", place: "taganga",
-        region: "Tuesday · Santa Marta and Taganga",
-        title: "Five hours by car, not by plane",
-        where: "Sleep in Taganga",
-        body: [
-          "There is no direct Cartagena–Santa Marta flight. A connection takes as long as the road, so book a private transfer, about five to six hours.",
-          "If you arrive with daylight, walk the Santa Marta waterfront, then settle in Taganga. The dive is tomorrow."
-        ],
-        links: [
-          ["Driving route", "https://www.google.com/maps/dir/?api=1&origin=Getsemani%2C%20Cartagena&destination=Taganga%2C%20Magdalena&travelmode=driving"],
-          ["Taganga hotels", "https://www.google.com/maps/search/?api=1&query=Taganga+hotels"]
-        ]
-      },
-      16: {
-        cls: "coast", short: "Dive", place: "taganga",
-        region: "Wednesday · Taganga",
-        title: "Scuba",
-        where: "A boat from the bay",
-        body: [
-          "Certified operator, two tanks if the sea allows. Evening in the village.",
-          "You fly on the 18th, which is enough time after diving. Do not move this dive to the 17th or 18th."
-        ],
-        links: [
-          ["Dive shops", "https://www.google.com/maps/search/?api=1&query=scuba+diving+Taganga"]
-        ]
-      },
-      17: {
-        cls: "coast", short: "Tayrona", place: "tayrona",
-        region: "Thursday · Tayrona",
-        title: "One proper park day",
-        where: "Back to Taganga or Santa Marta at night",
-        body: [
-          "Jungle and beach: Cabo San Juan and Arrecifes, or the harder Calabazo to Zaino traverse if the trails are open and you want the long version.",
-          "Two park days do not fit once you have to be on a plane on the 18th. Use the official entry. Payment is not the same as a confirmed reservation."
-        ],
-        links: [
-          ["Park entry", "https://linkdepago.parquesnacionales.gov.co/liquidacion?codpnn=P0002"],
-          ["Tayrona", "https://www.google.com/maps/search/?api=1&query=Parque+Nacional+Natural+Tayrona"]
-        ]
-      },
-      18: {
-        cls: "bog", short: "To Bogotá", place: "smr",
-        region: "Friday · Santa Marta → Bogotá",
-        title: "Last flight inside Colombia",
-        where: "Sleep by El Dorado",
-        body: [
-          "Direct Santa Marta → Bogotá, about an hour and a half. Take an afternoon flight so the morning can be a beach or a slow checkout.",
-          "Sleep at the airport. The international flight is tomorrow, and you do not want a cross-town transfer in the morning."
-        ],
-        links: [
-          ["SMR → BOG fares", "https://www.google.com/travel/flights?hl=en&curr=EUR&q=one%20way%20flights%20from%20SMR%20to%20BOG%20on%202026-12-18"],
-          ["Airport hotels", "https://www.google.com/maps/search/?api=1&query=hotels%20near%20El%20Dorado%20airport%20Bogota"]
-        ]
-      },
-      19: {
-        cls: "bog", short: "Home", place: "bog",
-        region: "Saturday · Bogotá",
-        title: "Fly home",
-        where: "El Dorado",
-        body: [
-          "International departure from Bogotá, the same airport you landed at on the 5th. Give it a long buffer.",
-          "Round trip into and out of Bogotá keeps the domestic tickets separate, which is what the four searches above are for."
-        ],
-        links: [
-          ["El Dorado", "https://www.google.com/maps/search/?api=1&query=El%20Dorado%20International%20Airport"]
-        ]
-      }
-    };
-
-    const HIKES = {
-      "3": {
-        chip: "6–8 Dec",
-        lede: "Land in Bogotá on the evening of the 5th. Fly to Salento the next morning and walk for three days from Valle de Cocora to Paramillo del Quindío. Land in Medellín on the afternoon of the 9th, fit the suit that evening and keep the 10th for the wedding. Coffee with friends near Medellín, then Cartagena, Taganga and Tayrona. Home from Bogotá on the 19th.",
-        note: "<strong>3-day summit.</strong> The walk starts late on Sunday the 6th, after the Bogotá flight, and the guide has to accept that. Summit day is the 7th. You sleep in Salento on the 8th, then take the afternoon Armenia → Medellín flight on the 9th, the day before the wedding.",
-        flight: "Earliest Sunday direct. Avianca’s 06:25 often does not run on Sundays, so check LATAM and JetSMART too. You need to be in Salento late morning to start walking.",
-        route: ["bog", "salento", "cocora", "paramillo", "salento", "med", "santaelena", "med", "ctg", "taganga", "tayrona", "smr", "bog"]
-      },
-      "2": {
-        chip: "7–8 Dec",
-        lede: "Land in Bogotá on the evening of the 5th. Fly to Salento on the 6th and walk for two days into the páramo and back. Land in Medellín on the afternoon of the 9th, fit the suit that evening and keep the 10th for the wedding. Coffee with friends near Medellín, then Cartagena, Taganga and Tayrona. Home from Bogotá on the 19th.",
-        note: "<strong>2-day páramo.</strong> Use this if the guide will not start late on Sunday. The 6th is Salento and the trek briefing. Monday and Tuesday go up to about 4,000 m and back to town. Every summit trip found is three days, because the 4,750 m push and the walk out are separate days. You still sleep in Salento on the 8th and fly to Medellín on the afternoon of the 9th.",
-        flight: "A mid-morning Sunday direct is enough. Avianca’s 06:25 often skips Sundays. The taxi to Salento is about an hour, and operators want you at the briefing that afternoon.",
-        route: ["bog", "salento", "cocora", "playa", "salento", "med", "santaelena", "med", "ctg", "taganga", "tayrona", "smr", "bog"],
-        days: {
-          5: {
-            cls: "bog", short: "Land", place: "bog",
-            region: "Saturday · Bogotá",
-            title: "Land in the evening",
-            where: "Sleep in Bogotá",
-            body: [
-              "International flight, into El Dorado in the evening. Taxi to the hotel. Nothing else planned.",
-              "Tomorrow can be a mid-morning Armenia flight, so Hotel Coco in Chapinero is the one-night stay."
-            ],
-            links: [
-              ["Hotel Coco", "https://booking.hotelcoco.com.co/"],
-              ["Airport hotels", "https://www.google.com/maps/search/?api=1&query=hotels%20near%20El%20Dorado%20airport%20Bogota"]
-            ]
-          },
-          6: {
-            cls: "bog", short: "Salento", place: "salento",
-            region: "Sunday · Salento",
-            title: "Fly in, gear check, early night",
-            where: "Sleep in Salento",
-            body: [
-              "Fly Bogotá → Armenia in the morning and taxi to Salento, about an hour. Operators hold a short briefing the afternoon before the trek, with a gear check and rental for anything missing.",
-              "Then Calle Real and the Alto de la Cruz lookout. The walk starts at about 6:00 on Monday, from the plaza."
-            ],
-            links: [
-              ["BOG → AXM fares", "https://www.google.com/travel/flights?hl=en&curr=EUR&q=one%20way%20flights%20from%20BOG%20to%20AXM%20on%202026-12-06"],
-              ["Andígena 2-day", "https://andigena.com/activities/paramo/"],
-              ["Salento plaza", "https://www.google.com/maps/search/?api=1&query=Plaza%20de%20Bolivar%20Salento"]
-            ]
-          },
-          7: {
-            cls: "hike", short: "Trek 1", place: "playa",
-            region: "Monday · toward Los Nevados",
-            title: "Up to the high farm",
-            where: "Sleep around 3,700 m",
-            body: [
-              "Early jeep from the Salento plaza into Valle de Cocora, then cloud forest and páramo to a farm such as La Playa, about 3,700 m. This is a full walking day, around eight hours.",
-              "The published two-day trips turn around in the páramo, near 4,000 m. They do not add the 4,750 m summit, because that push and the walk back to Salento are two separate days."
-            ],
-            links: [
-              ["Andígena 2-day", "https://andigena.com/activities/paramo/"],
-              ["Cocora on Maps", "https://www.google.com/maps/search/?api=1&query=Valle%20de%20Cocora%20Salento"],
-              ["Park page", "https://www.parquesnacionales.gov.co/nuestros-parques/parque-nacional-natural-los-nevados/"]
-            ]
-          },
-          8: {
-            cls: "hike", short: "Down", place: "salento",
-            region: "Tuesday · back to Salento",
-            title: "Back down the same mountains",
-            where: "Sleep in Salento",
-            body: [
-              "Breakfast at the farm, then the long walk down to Valle de Cocora and a jeep to Salento. Operators aim to be in town in the afternoon.",
-              "That leaves the evening free before tomorrow’s Armenia → Medellín flight, around 15:20. The airport is an hour from town."
-            ],
-            links: [
-              ["El Mirador del Cocora", "https://www.elmiradordelcocora.com/"],
-              ["AXM → MDE fares", "https://www.google.com/travel/flights?hl=en&curr=EUR&q=one%20way%20flights%20from%20AXM%20to%20MDE%20on%202026-12-09"]
-            ]
-          }
-        }
-      }
-    };
-
     const cal = document.getElementById("cal");
     const detail = document.getElementById("detail");
     const cap = document.getElementById("mapcap");
@@ -754,7 +497,6 @@
 
     let hike = "3";
     let selected = 5;
-    HIKES["3"].days = { 5: DAYS[5], 6: DAYS[6], 7: DAYS[7], 8: DAYS[8] };
 
     function paintDays() {
       document.querySelectorAll("#cal button[data-day]").forEach((btn) => {
@@ -784,7 +526,38 @@
       });
       line.setLatLngs(latlngs(plan.route));
       paintDays();
+      buildChecklist();
       select(selected);
+    }
+
+    function buildChecklist() {
+      const groups = Object.keys(WHEN).map((when) => {
+        const rows = [];
+        for (let n = 5; n <= 19; n++) {
+          DAYS[n].book.forEach(([w, what, note, href]) => {
+            if (w !== when || what === "Nothing extra") return;
+            if (rows.some((r) => r.what === what)) return;
+            rows.push({ n, what, note, href });
+          });
+        }
+        const items = rows.map((r) => `
+          <li>
+            <button type="button" class="day-tag" data-day="${r.n}">${r.n} Dec</button>
+            <div>
+              <strong>${r.href ? `<a href="${r.href}" target="_blank" rel="noopener">${r.what}</a>` : r.what}</strong>
+              ${r.note ? `<span class="note-line">${r.note}</span>` : ""}
+            </div>
+          </li>`).join("");
+        return `<article><h3><span class="badge ${when}">${WHEN[when]}</span></h3><ul>${items}</ul></article>`;
+      });
+      const box = document.getElementById("checklist-groups");
+      box.innerHTML = groups.join("");
+      box.querySelectorAll(".day-tag").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          select(Number(btn.dataset.day));
+          document.getElementById("cal").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
     }
 
     document.getElementById("plan-3").addEventListener("click", () => applyHike("3"));
@@ -804,11 +577,24 @@
       const links = day.links.map(([label, href]) =>
         `<a href="${href}" target="_blank" rel="noopener">${label}</a>`
       ).join("");
+      const list = (items) => `<ul>${items.map((t) => `<li>${t}</li>`).join("")}</ul>`;
+      const book = day.book.map(([when, what, note, href]) => `
+        <li>
+          <span class="badge ${when}">${WHEN[when]}</span>
+          <strong>${href ? `<a href="${href}" target="_blank" rel="noopener">${what}</a>` : what}</strong>
+          ${note ? `<span class="note-line">${note}</span>` : ""}
+        </li>`).join("");
       detail.innerHTML = `
         <p class="kicker">${day.region}</p>
         <h2>${day.title}</h2>
         <p class="where">${day.where}</p>
         ${day.body.map((p) => `<p>${p}</p>`).join("")}
+        <h3>See and do</h3>
+        ${list(day.see)}
+        <h3>Book</h3>
+        <ul class="book">${book}</ul>
+        <h3>Good to know</h3>
+        ${list(day.tips)}
         <div class="links">${links}</div>`;
       const p = PLACES[day.place];
       map.closePopup();
