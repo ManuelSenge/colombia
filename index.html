@@ -317,7 +317,7 @@
         <div class="panel cal">
           <div class="cal-top">
             <h2>December 2026</h2>
-            <p class="hint">Hover a day. On a phone, tap it.</p>
+            <p class="hint">Click a day to see the plan.</p>
           </div>
           <div class="switch" role="group" aria-label="Hike length">
             <button type="button" id="plan-3" aria-pressed="true">3-day summit</button>
@@ -464,8 +464,6 @@
       btn.innerHTML = `<span class="n">${n}</span>` + (day ? `<span class="s">${day.short}</span>` : "");
       if (day) {
         btn.classList.add("on", day.cls);
-        btn.addEventListener("mouseenter", () => select(n));
-        btn.addEventListener("focus", () => select(n));
         btn.addEventListener("click", () => select(n));
       } else {
         btn.tabIndex = -1;
