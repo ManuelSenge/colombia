@@ -147,11 +147,61 @@
     .cell .s { display: block; font-size: 12px; line-height: 1.25; margin-top: 4px; }
     .cell.bog { background: var(--goldbg); }
     .cell.hike { background: var(--moss); }
+    .cell.coffee { background: #f6e3c4; }
     .cell.med { background: var(--sand); }
     .cell.wed { background: var(--blush); }
     .cell.ctg { background: #fde8dc; }
     .cell.coast { background: var(--foam); }
     .cell.active { border-color: var(--ink); }
+    .switch {
+      display: flex;
+      gap: 4px;
+      width: fit-content;
+      margin: 0 0 12px;
+      padding: 4px;
+      background: #f7f2ea;
+      border-radius: 999px;
+    }
+    .switch button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .switch button[aria-pressed="true"] { background: var(--forest); color: white; }
+    .compare {
+      display: grid;
+      grid-template-columns: 64px 1fr 1fr;
+      gap: 4px 8px;
+      margin: 0 0 14px;
+      font-size: 13px;
+    }
+    .compare .hd {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 4px 2px 0;
+    }
+    .compare button {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 10px;
+      text-align: left;
+      padding: 7px 8px;
+      font: inherit;
+      font-size: 13px;
+      line-height: 1.3;
+      cursor: pointer;
+      color: var(--ink);
+    }
+    .compare button.on { border-color: var(--forest); background: var(--moss); }
+    .compare button.coffee.on { background: #f6e3c4; }
     .detail { margin: 12px 0 18px; padding: 18px 18px 16px; min-height: 220px; }
     .detail h2 { font-size: 30px; margin: 4px 0 6px; }
     .where { margin: 0 0 8px; color: var(--muted); }
@@ -187,7 +237,8 @@
       .map-wrap { position: static; }
       #map { height: 420px; }
       .cell { min-height: 64px; padding: 6px; }
-      .cell .s { display: none; }
+      .cell .s { font-size: 11px; }
+      .compare { grid-template-columns: 48px 1fr 1fr; }
     }
   </style>
 </head>
@@ -197,23 +248,22 @@
     <header class="hero">
       <p class="kicker">5–19 December 2026 · 14 nights</p>
       <h1>Colombia,<br><em>before the wedding.</em></h1>
-      <p class="lede">
+      <p class="lede" id="lede">
         Land in Bogotá on the evening of the 5th. Fly to Salento the next morning and walk for three days
         from Valle de Cocora to Paramillo del Quindío. Land in Medellín on the afternoon of the 9th,
-        keep the 11th for the wedding, then Cartagena, Taganga and Tayrona. Home from Bogotá on the 19th.
+        fit the suit that evening and keep the 10th for the wedding. Coffee with friends near Medellín, then Cartagena, Taganga and Tayrona. Home from Bogotá on the 19th.
       </p>
       <div class="chips">
         <span class="chip"><strong>In</strong> Bogotá, 5 Dec evening</span>
-        <span class="chip"><strong>Trek</strong> 6–8 Dec</span>
+        <span class="chip"><strong>Trek</strong> <span id="trek-chip">6–8 Dec</span></span>
         <span class="chip"><strong>Medellín</strong> afternoon of the 9th</span>
-        <span class="chip"><strong>Wedding</strong> 11 Dec</span>
+        <span class="chip"><strong>Wedding</strong> 10 Dec</span>
         <span class="chip"><strong>Out</strong> Bogotá, 19 Dec</span>
       </div>
-      <p class="note">
-        <strong>The 9th is an afternoon landing.</strong>
-        Avianca has one direct Armenia (AXM) → Medellín (MDE), around 15:20.
-        The trek ends in Salento on the 8th, so that flight is the plan, not a backup.
-        Tell the guide you can start late on the morning of the 6th, after the Bogotá flight.
+      <p class="note" id="hike-note">
+        <strong>The 9th is an afternoon landing either way.</strong>
+        Avianca has one direct Armenia (AXM) → Medellín (MDE), around 15:20, and both versions are back in Salento on the evening of the 8th.
+        The 3-day version starts walking late on Sunday the 6th and summits. The 2-day version uses the 6th for Salento and the briefing, then walks the páramo on the 7th and 8th.
       </p>
     </header>
 
@@ -223,6 +273,24 @@
           <div class="cal-top">
             <h2>December 2026</h2>
             <p class="hint">Hover a day. On a phone, tap it.</p>
+          </div>
+          <div class="switch" role="group" aria-label="Hike length">
+            <button type="button" id="plan-3" aria-pressed="true">3-day summit</button>
+            <button type="button" id="plan-2" aria-pressed="false">2-day páramo</button>
+          </div>
+          <div class="compare" id="compare">
+            <span></span>
+            <span class="hd">3-day</span>
+            <span class="hd">2-day</span>
+            <span class="hd">6 Sun</span>
+            <button type="button" data-plan="3" data-day="6">Fly in, start walking</button>
+            <button type="button" data-plan="2" data-day="6">Salento, briefing</button>
+            <span class="hd">7 Mon</span>
+            <button type="button" data-plan="3" data-day="7">Summit, 4,750 m</button>
+            <button type="button" data-plan="2" data-day="7">Walk up to the farm</button>
+            <span class="hd">8 Tue</span>
+            <button type="button" data-plan="3" data-day="8">Descend to Salento</button>
+            <button type="button" data-plan="2" data-day="8">Descend to Salento</button>
           </div>
           <div class="weekdays" aria-hidden="true">
             <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
@@ -248,7 +316,7 @@
           <tr>
             <td>Sun 6 Dec</td>
             <td>Bogotá → Armenia<br>BOG → AXM · about 1 hour</td>
-            <td>Earliest Sunday direct. Avianca’s 06:25 often does not run on Sundays, so check LATAM and JetSMART too. You need to be in Salento late morning.</td>
+            <td id="flight-6">Earliest Sunday direct. Avianca’s 06:25 often does not run on Sundays, so check LATAM and JetSMART too. You need to be in Salento late morning.</td>
             <td><a href="https://www.google.com/travel/flights?hl=en&amp;curr=EUR&amp;q=one%20way%20flights%20from%20BOG%20to%20AXM%20on%202026-12-06">Search fares</a></td>
           </tr>
           <tr>
@@ -281,7 +349,7 @@
           <div class="textlinks">
             <a href="https://booking.hotelcoco.com.co/" target="_blank" rel="noopener">Hotel Coco, Bogotá — 5 Dec</a>
             <a href="https://www.google.com/maps/search/?api=1&amp;query=hotels%20near%20El%20Dorado%20airport%20Bogota" target="_blank" rel="noopener">Airport hotel, Bogotá — 18 Dec</a>
-            <a href="https://www.elmiradordelcocora.com/" target="_blank" rel="noopener">El Mirador del Cocora, Salento — 8 Dec</a>
+            <a href="https://www.elmiradordelcocora.com/" target="_blank" rel="noopener">El Mirador del Cocora, Salento</a>
             <a href="https://marqueemedellin.com/" target="_blank" rel="noopener">Marquee, Medellín — 9–13 Dec</a>
             <a href="https://www.clickclackhotel.com/" target="_blank" rel="noopener">Click Clack, Medellín</a>
             <a href="https://booking.arsenalhotel.com/en/?skip_mobile=1" target="_blank" rel="noopener">Arsenal, Cartagena — 13–15 Dec</a>
@@ -292,7 +360,8 @@
           <h3>Trek and parks</h3>
           <div class="textlinks">
             <a href="https://sawa.travel/en/tour/paramillo-del-quindio-3-days/" target="_blank" rel="noopener">SAWA — 3-day Paramillo circuit</a>
-            <a href="https://montanascolombianas.com/paramillo-of-quindio-3-days-2-nights/?lang=en" target="_blank" rel="noopener">Montañas Colombianas</a>
+            <a href="https://montanascolombianas.com/paramillo-of-quindio-3-days-2-nights/?lang=en" target="_blank" rel="noopener">Montañas Colombianas — 3 days</a>
+            <a href="https://andigena.com/activities/paramo/" target="_blank" rel="noopener">Andígena — 2 days, páramo to about 4,010 m</a>
             <a href="https://paramotrek.com/en/tour/summit-paramillo-del-quindio/" target="_blank" rel="noopener">Páramo Trek — summit</a>
             <a href="https://aventurecolombia.com/en/trips/paramillo-del-quindio-from-salento/" target="_blank" rel="noopener">Aventure Colombia</a>
             <a href="https://www.parquesnacionales.gov.co/nuestros-parques/parque-nacional-natural-los-nevados/" target="_blank" rel="noopener">Los Nevados, official</a>
@@ -302,10 +371,13 @@
         <article>
           <h3>The days you asked for</h3>
           <div class="textlinks">
-            <a href="https://lau-y-luisfer.my.canva.site/" target="_blank" rel="noopener">Wedding invitation</a>
+            <a href="https://lau-y-luisfer.my.canva.site/" target="_blank" rel="noopener">Wedding invitation — 10 Dec</a>
+            <a href="https://casaparis.com.co/pages/traje-de-hombre" target="_blank" rel="noopener">Casa París suit rental — fit on 9 Dec</a>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Tonight%20alquiler%20de%20trajes%20Carrera%2033%207-69%20Medellin" target="_blank" rel="noopener">Tonight suit rental, Provenza</a>
             <a href="https://www.guruwalk.com/walks/38407-the-great-poblado-free-tour-from-provenza-to-manila" target="_blank" rel="noopener">Provenza → Manila walking tour</a>
             <a href="https://www.google.com/maps/search/?api=1&amp;query=Escaleras+Electricas+Comuna+13+Medellin" target="_blank" rel="noopener">Comuna 13</a>
             <a href="https://www.google.com/maps/search/?api=1&amp;query=Museo+Casa+de+la+Memoria+Medellin" target="_blank" rel="noopener">Casa de la Memoria</a>
+            <a href="https://www.beyondcolombia.com/tours/coffee-tour-medellin-farm-santa-elena/" target="_blank" rel="noopener">Santa Elena coffee farm — 12 Dec</a>
             <a href="https://www.google.com/maps/search/?api=1&amp;query=Parque+Arvi+Medellin" target="_blank" rel="noopener">Parque Arví cable car</a>
             <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Getsemani%2C%20Cartagena&amp;destination=Taganga%2C%20Magdalena&amp;travelmode=driving" target="_blank" rel="noopener">Cartagena → Taganga by road</a>
             <a href="https://www.google.com/maps/search/?api=1&amp;query=scuba+diving+Taganga" target="_blank" rel="noopener">Taganga dive operators</a>
@@ -325,7 +397,9 @@
     const PLACES = {
       bog: { name: "Bogotá", lat: 4.651, lng: -74.083, z: 11 },
       salento: { name: "Salento", lat: 4.6374, lng: -75.5706, z: 12 },
+      santaelena: { name: "Santa Elena coffee farms", lat: 6.212, lng: -75.5, z: 12 },
       cocora: { name: "Valle de Cocora", lat: 4.642, lng: -75.489, z: 12 },
+      playa: { name: "High farm, about 3,700 m", lat: 4.69, lng: -75.44, z: 12 },
       paramillo: { name: "Paramillo del Quindío", lat: 4.713, lng: -75.385, z: 11 },
       med: { name: "Medellín · El Poblado", lat: 6.2088, lng: -75.5674, z: 12 },
       ctg: { name: "Cartagena · Getsemaní", lat: 10.422, lng: -75.547, z: 13 },
@@ -356,8 +430,7 @@
         where: "Overnight on a mountain farm, about 3,400 m",
         body: [
           "Book the earliest Sunday direct Bogotá → Armenia (about an hour). Avianca’s 06:25 often skips Sundays, so compare LATAM and JetSMART. Taxi to Salento is about an hour.",
-          "Trek day 1 starts late morning, not at 7:00. Jeep into Valle de Cocora, then cloud forest toward a farm such as La Argentina. The operator has to agree to that late start — say so when you book.",
-          "Coffee at Finca El Ocaso only happens if they refuse a Sunday start and the hike becomes two days on the 7th and 8th. The plan is still three days."
+          "Trek day 1 starts late morning, not at 7:00. Jeep into Valle de Cocora, then cloud forest toward a farm such as La Argentina. The operator has to agree to that late start — say so when you book."
         ],
         links: [
           ["BOG → AXM fares", "https://www.google.com/travel/flights?hl=en&curr=EUR&q=one%20way%20flights%20from%20BOG%20to%20AXM%20on%202026-12-06"],
@@ -397,59 +470,61 @@
       9: {
         cls: "med", short: "Medellín", place: "med",
         region: "Wednesday · Medellín",
-        title: "Land in the afternoon",
+        title: "Land, then the suit",
         where: "El Poblado",
         body: [
-          "Leave Salento late morning. Avianca AXM → MDE is about an hour and lands in the afternoon. Taxi to El Poblado.",
-          "Easy evening only: dinner in Provenza, nothing that needs an early start. The city day is tomorrow, the wedding is the 11th."
+          "Leave Salento late morning. Avianca AXM → MDE leaves around 15:20 and lands at Rionegro about an hour later. The taxi down to El Poblado or Envigado is 45–60 minutes.",
+          "Suit fitting at about 18:00. Book it by WhatsApp before the trip and send your measurements, so the suit is already pulled and only needs small alterations. Casa París closes at 19:00. Tonight in Provenza is a short walk from the hotel and also closes at 19:00.",
+          "Ask for alterations ready by the morning of the 10th. Then an easy dinner in Provenza."
         ],
         links: [
           ["AXM → MDE fares", "https://www.google.com/travel/flights?hl=en&curr=EUR&q=one%20way%20flights%20from%20AXM%20to%20MDE%20on%202026-12-09"],
-          ["Marquee Hotel", "https://marqueemedellin.com/"],
-          ["Click Clack", "https://www.clickclackhotel.com/"]
+          ["Casa París suits", "https://casaparis.com.co/pages/traje-de-hombre"],
+          ["Tonight, Provenza", "https://www.google.com/maps/search/?api=1&query=Tonight%20alquiler%20de%20trajes%20Carrera%2033%207-69%20Medellin"],
+          ["Marquee Hotel", "https://marqueemedellin.com/"]
         ]
       },
       10: {
-        cls: "med", short: "City", place: "med",
-        region: "Thursday · Medellín",
-        title: "Comuna 13 and the valley",
-        where: "Out from El Poblado",
-        body: [
-          "This is the full city day, before the wedding. Comuna 13 escalators and street art, then Casa de la Memoria if you still want a museum.",
-          "Cable car up to Parque Arví if the legs from the trek allow it. Santafé mall is in El Poblado on the way home. Plaza Botero can wait — it was the one you were less interested in."
-        ],
-        links: [
-          ["Comuna 13", "https://www.google.com/maps/search/?api=1&query=Escaleras+Electricas+Comuna+13+Medellin"],
-          ["Casa de la Memoria", "https://www.google.com/maps/search/?api=1&query=Museo+Casa+de+la+Memoria+Medellin"],
-          ["Parque Arví", "https://www.google.com/maps/search/?api=1&query=Parque+Arvi+Medellin"]
-        ]
-      },
-      11: {
         cls: "wed", short: "Wedding", place: "med",
-        region: "Friday · Medellín",
+        region: "Thursday · Medellín",
         title: "The wedding",
         where: "Keep the whole day free",
         body: [
-          "Nothing else goes on this day. Venue, time and dress code come from the invitation.",
+          "Collect the altered suit in the morning if it was not ready last night. Nothing else goes on this day. Venue, time and dress code come from the invitation.",
           "Stay in El Poblado or Laureles so the evening transfer is short."
         ],
         links: [
           ["Invitation", "https://lau-y-luisfer.my.canva.site/"]
         ]
       },
-      12: {
-        cls: "med", short: "Easy", place: "med",
-        region: "Saturday · Medellín",
-        title: "A slow day in El Poblado",
-        where: "Provenza, then pack",
+      11: {
+        cls: "med", short: "City", place: "med",
+        region: "Friday · Medellín",
+        title: "Comuna 13, then Provenza",
+        where: "Out from El Poblado",
         body: [
-          "No early start after the wedding. The free walking tour runs from Provenza to Manila if you want a guide and a story.",
-          "Food and a drink in Provenza. Placita de Flórez is the market in the centre if you want one outing. Pack tonight — Cartagena is tomorrow."
+          "Late start after the wedding. Return the suit, then Comuna 13 escalators and street art. Casa de la Memoria if you still want a museum.",
+          "The free walking tour runs from Provenza to Manila if you want a guide and a story. Plaza Botero can wait — it was the one you were less interested in."
         ],
         links: [
-          ["Walking tour", "https://www.guruwalk.com/walks/38407-the-great-poblado-free-tour-from-provenza-to-manila"],
-          ["Placita de Flórez", "https://www.google.com/maps/search/?api=1&query=Placita%20de%20Florez%20Medellin"],
-          ["Provenza", "https://www.google.com/maps/search/?api=1&query=Provenza%20El%20Poblado"]
+          ["Comuna 13", "https://www.google.com/maps/search/?api=1&query=Escaleras+Electricas+Comuna+13+Medellin"],
+          ["Casa de la Memoria", "https://www.google.com/maps/search/?api=1&query=Museo+Casa+de+la+Memoria+Medellin"],
+          ["Walking tour", "https://www.guruwalk.com/walks/38407-the-great-poblado-free-tour-from-provenza-to-manila"]
+        ]
+      },
+      12: {
+        cls: "coffee", short: "Coffee", place: "santaelena",
+        region: "Saturday · Santa Elena",
+        title: "Coffee farm with your friends",
+        where: "Hills above Medellín, back for dinner",
+        body: [
+          "Santa Elena is 25–45 minutes above the city, so the coffee farm fits in a day. The shared farm tour leaves El Poblado at 10:00 every day, takes about five hours and includes lunch. If your friends drive, ask them about a farm they know.",
+          "Parque Arví is next door, so the cable car down is an easy way back. Pack tonight — Cartagena is tomorrow."
+        ],
+        links: [
+          ["Santa Elena coffee tour", "https://www.beyondcolombia.com/tours/coffee-tour-medellin-farm-santa-elena/"],
+          ["Parque Arví", "https://www.google.com/maps/search/?api=1&query=Parque+Arvi+Medellin"],
+          ["Placita de Flórez", "https://www.google.com/maps/search/?api=1&query=Placita%20de%20Florez%20Medellin"]
         ]
       },
       13: {
@@ -551,6 +626,83 @@
       }
     };
 
+    const HIKES = {
+      "3": {
+        chip: "6–8 Dec",
+        lede: "Land in Bogotá on the evening of the 5th. Fly to Salento the next morning and walk for three days from Valle de Cocora to Paramillo del Quindío. Land in Medellín on the afternoon of the 9th, fit the suit that evening and keep the 10th for the wedding. Coffee with friends near Medellín, then Cartagena, Taganga and Tayrona. Home from Bogotá on the 19th.",
+        note: "<strong>3-day summit.</strong> The walk starts late on Sunday the 6th, after the Bogotá flight, and the guide has to accept that. Summit day is the 7th. You sleep in Salento on the 8th, then take the afternoon Armenia → Medellín flight on the 9th, the day before the wedding.",
+        flight: "Earliest Sunday direct. Avianca’s 06:25 often does not run on Sundays, so check LATAM and JetSMART too. You need to be in Salento late morning to start walking.",
+        route: ["bog", "salento", "cocora", "paramillo", "salento", "med", "santaelena", "med", "ctg", "taganga", "tayrona", "smr", "bog"]
+      },
+      "2": {
+        chip: "7–8 Dec",
+        lede: "Land in Bogotá on the evening of the 5th. Fly to Salento on the 6th and walk for two days into the páramo and back. Land in Medellín on the afternoon of the 9th, fit the suit that evening and keep the 10th for the wedding. Coffee with friends near Medellín, then Cartagena, Taganga and Tayrona. Home from Bogotá on the 19th.",
+        note: "<strong>2-day páramo.</strong> Use this if the guide will not start late on Sunday. The 6th is Salento and the trek briefing. Monday and Tuesday go up to about 4,000 m and back to town. Every summit trip found is three days, because the 4,750 m push and the walk out are separate days. You still sleep in Salento on the 8th and fly to Medellín on the afternoon of the 9th.",
+        flight: "A mid-morning Sunday direct is enough. Avianca’s 06:25 often skips Sundays. The taxi to Salento is about an hour, and operators want you at the briefing that afternoon.",
+        route: ["bog", "salento", "cocora", "playa", "salento", "med", "santaelena", "med", "ctg", "taganga", "tayrona", "smr", "bog"],
+        days: {
+          5: {
+            cls: "bog", short: "Land", place: "bog",
+            region: "Saturday · Bogotá",
+            title: "Land in the evening",
+            where: "Sleep in Bogotá",
+            body: [
+              "International flight, into El Dorado in the evening. Taxi to the hotel. Nothing else planned.",
+              "Tomorrow can be a mid-morning Armenia flight, so Hotel Coco in Chapinero is the one-night stay."
+            ],
+            links: [
+              ["Hotel Coco", "https://booking.hotelcoco.com.co/"],
+              ["Airport hotels", "https://www.google.com/maps/search/?api=1&query=hotels%20near%20El%20Dorado%20airport%20Bogota"]
+            ]
+          },
+          6: {
+            cls: "bog", short: "Salento", place: "salento",
+            region: "Sunday · Salento",
+            title: "Fly in, gear check, early night",
+            where: "Sleep in Salento",
+            body: [
+              "Fly Bogotá → Armenia in the morning and taxi to Salento, about an hour. Operators hold a short briefing the afternoon before the trek, with a gear check and rental for anything missing.",
+              "Then Calle Real and the Alto de la Cruz lookout. The walk starts at about 6:00 on Monday, from the plaza."
+            ],
+            links: [
+              ["BOG → AXM fares", "https://www.google.com/travel/flights?hl=en&curr=EUR&q=one%20way%20flights%20from%20BOG%20to%20AXM%20on%202026-12-06"],
+              ["Andígena 2-day", "https://andigena.com/activities/paramo/"],
+              ["Salento plaza", "https://www.google.com/maps/search/?api=1&query=Plaza%20de%20Bolivar%20Salento"]
+            ]
+          },
+          7: {
+            cls: "hike", short: "Trek 1", place: "playa",
+            region: "Monday · toward Los Nevados",
+            title: "Up to the high farm",
+            where: "Sleep around 3,700 m",
+            body: [
+              "Early jeep from the Salento plaza into Valle de Cocora, then cloud forest and páramo to a farm such as La Playa, about 3,700 m. This is a full walking day, around eight hours.",
+              "The published two-day trips turn around in the páramo, near 4,000 m. They do not add the 4,750 m summit, because that push and the walk back to Salento are two separate days."
+            ],
+            links: [
+              ["Andígena 2-day", "https://andigena.com/activities/paramo/"],
+              ["Cocora on Maps", "https://www.google.com/maps/search/?api=1&query=Valle%20de%20Cocora%20Salento"],
+              ["Park page", "https://www.parquesnacionales.gov.co/nuestros-parques/parque-nacional-natural-los-nevados/"]
+            ]
+          },
+          8: {
+            cls: "hike", short: "Down", place: "salento",
+            region: "Tuesday · back to Salento",
+            title: "Back down the same mountains",
+            where: "Sleep in Salento",
+            body: [
+              "Breakfast at the farm, then the long walk down to Valle de Cocora and a jeep to Salento. Operators aim to be in town in the afternoon.",
+              "That leaves the evening free before tomorrow’s Armenia → Medellín flight, around 15:20. The airport is an hour from town."
+            ],
+            links: [
+              ["El Mirador del Cocora", "https://www.elmiradordelcocora.com/"],
+              ["AXM → MDE fares", "https://www.google.com/travel/flights?hl=en&curr=EUR&q=one%20way%20flights%20from%20AXM%20to%20MDE%20on%202026-12-09"]
+            ]
+          }
+        }
+      }
+    };
+
     const cal = document.getElementById("cal");
     const detail = document.getElementById("detail");
     const cap = document.getElementById("mapcap");
@@ -581,28 +733,73 @@
     }
 
     const map = L.map("map", { scrollWheelZoom: false, zoomControl: true }).setView([7.2, -74.6], 6);
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-      attribution: "&copy; OpenStreetMap &copy; CARTO",
-      subdomains: "abcd",
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
       maxZoom: 18
     }).addTo(map);
 
-    const route = ["bog", "salento", "cocora", "paramillo", "salento", "med", "ctg", "taganga", "tayrona", "smr", "bog"]
-      .map((id) => [PLACES[id].lat, PLACES[id].lng]);
-    L.polyline(route, { color: "#1d4a38", weight: 3, opacity: 0.85 }).addTo(map);
+    function latlngs(ids) {
+      return ids.map((id) => [PLACES[id].lat, PLACES[id].lng]);
+    }
+    const line = L.polyline(latlngs(HIKES["3"].route), { color: "#1d4a38", weight: 3, opacity: 0.85 }).addTo(map);
 
     const markers = {};
     Object.entries(PLACES).forEach(([id, p]) => {
       const marker = L.circleMarker([p.lat, p.lng], {
         radius: 7, color: "#241910", weight: 2, fillColor: "#f4efe6", fillOpacity: 1
       }).addTo(map);
-      marker.bindPopup(`<strong>${p.name}</strong>`);
+      marker.bindPopup(`<strong>${p.name}</strong>`, { autoPan: false });
       markers[id] = marker;
+    });
+
+    let hike = "3";
+    let selected = 5;
+    HIKES["3"].days = { 5: DAYS[5], 6: DAYS[6], 7: DAYS[7], 8: DAYS[8] };
+
+    function paintDays() {
+      document.querySelectorAll("#cal button[data-day]").forEach((btn) => {
+        const n = btn.dataset.day;
+        const day = DAYS[n];
+        const active = btn.classList.contains("active");
+        btn.className = "cell";
+        if (!day) return;
+        btn.classList.add("on", day.cls);
+        if (active) btn.classList.add("active");
+        btn.innerHTML = `<span class="n">${n}</span><span class="s">${day.short}</span>`;
+      });
+    }
+
+    function applyHike(which) {
+      hike = which;
+      const plan = HIKES[which];
+      Object.entries(plan.days).forEach(([n, day]) => { DAYS[n] = day; });
+      document.getElementById("lede").textContent = plan.lede;
+      document.getElementById("trek-chip").textContent = plan.chip;
+      document.getElementById("hike-note").innerHTML = plan.note;
+      document.getElementById("flight-6").textContent = plan.flight;
+      document.getElementById("plan-3").setAttribute("aria-pressed", which === "3" ? "true" : "false");
+      document.getElementById("plan-2").setAttribute("aria-pressed", which === "2" ? "true" : "false");
+      document.querySelectorAll("#compare button").forEach((btn) => {
+        btn.classList.toggle("on", btn.dataset.plan === which);
+      });
+      line.setLatLngs(latlngs(plan.route));
+      paintDays();
+      select(selected);
+    }
+
+    document.getElementById("plan-3").addEventListener("click", () => applyHike("3"));
+    document.getElementById("plan-2").addEventListener("click", () => applyHike("2"));
+    document.querySelectorAll("#compare button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        selected = Number(btn.dataset.day);
+        applyHike(btn.dataset.plan);
+      });
     });
 
     function select(n) {
       const day = DAYS[n];
       if (!day) return;
+      selected = n;
       document.querySelectorAll(".cell.on").forEach((el) => el.classList.toggle("active", el.dataset.day === String(n)));
       const links = day.links.map(([label, href]) =>
         `<a href="${href}" target="_blank" rel="noopener">${label}</a>`
@@ -614,12 +811,13 @@
         ${day.body.map((p) => `<p>${p}</p>`).join("")}
         <div class="links">${links}</div>`;
       const p = PLACES[day.place];
+      map.closePopup();
       map.flyTo([p.lat, p.lng], p.z, { duration: 0.7 });
       markers[day.place].openPopup();
       cap.textContent = `${n} Dec · ${p.name}`;
     }
 
-    select(5);
+    applyHike("3");
     setTimeout(() => map.invalidateSize(), 200);
   </script>
 </body>
