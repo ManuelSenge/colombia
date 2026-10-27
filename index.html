@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Colombia · 5–19 December 2026</title>
-  <meta name="description" content="Colombia trip 5–19 December 2026: Bogotá, a three-day Paramillo del Quindío trek, the Medellín wedding, Cartagena, Taganga scuba and Tayrona.">
+  <meta name="description" content="Colombia trip 5–19 December 2026: Salento, the three-day Paramillo del Quindío summit trek, the Medellín wedding, Cartagena, Taganga scuba and Tayrona — hour by hour.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,560;7..72,680&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
@@ -26,12 +26,13 @@
       --blush: #f8e4e6;
       --gold: #8a6420;
       --goldbg: #f8efd4;
+      --leaf: #edf3dc;
+      --night: #eceaf3;
       --shadow: 0 16px 40px rgba(60, 36, 16, 0.08);
       --serif: "Literata", "Iowan Old Style", Georgia, serif;
       --sans: "Outfit", "Avenir Next", system-ui, sans-serif;
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       color: var(--ink);
@@ -43,86 +44,70 @@
       line-height: 1.5;
     }
     a { color: var(--sea); }
-    .flag {
-      height: 8px;
-      background: linear-gradient(90deg, #fcd116 0 50%, #003893 50% 75%, #ce1126 75% 100%);
+    [hidden] { display: none !important; }
+    .flag { height: 8px; background: linear-gradient(90deg, #fcd116 0 50%, #003893 50% 75%, #ce1126 75% 100%); }
+    .wrap { width: min(1320px, calc(100% - 32px)); margin: 0 auto; }
+
+    .daynav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(244, 239, 230, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
     }
-    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
-    header.hero { padding: 36px 0 8px; }
-    .kicker {
-      margin: 0 0 8px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--clay);
-    }
-    h1 {
-      margin: 0;
-      font-family: var(--serif);
-      font-size: clamp(40px, 6vw, 68px);
-      font-weight: 680;
-      letter-spacing: -0.03em;
-      line-height: 0.95;
-    }
-    h1 em { font-style: italic; color: var(--forest); }
-    .lede { max-width: 68ch; font-size: 18px; color: #3d3228; }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
-    .chip {
-      background: var(--card);
+    .daynav .wrap { display: flex; gap: 6px; overflow-x: auto; padding: 10px 0; scrollbar-width: thin; }
+    .daynav button {
+      flex: 0 0 auto;
       border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 14px;
-    }
-    .chip strong { font-weight: 600; }
-    .note {
-      background: var(--goldbg);
-      border: 1px solid #ead7a4;
-      border-radius: 16px;
-      padding: 14px 16px;
-      max-width: 78ch;
-    }
-    .note strong { color: var(--gold); }
-    .stage {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
-      gap: 22px;
-      align-items: start;
-      padding: 22px 0 10px;
-    }
-    .panel {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-    }
-    .cal { padding: 18px 18px 8px; }
-    .cal-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-    .cal-top h2, .block h2, .detail h2 {
-      font-family: var(--serif);
-      font-weight: 680;
-      letter-spacing: -0.02em;
-      margin: 0;
-    }
-    .hint { color: var(--muted); font-size: 13px; margin: 0; }
-    .weekdays, .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-    .weekdays span {
+      background: white;
+      border-radius: 12px;
+      padding: 6px 10px;
+      font: inherit;
+      font-size: 13px;
+      line-height: 1.15;
       text-align: center;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding-bottom: 4px;
+      cursor: pointer;
+      color: var(--ink);
+      min-width: 58px;
     }
+    .daynav button .wd { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .daynav button .dn { display: block; font-weight: 600; font-size: 16px; }
+    .daynav button.ov { font-weight: 600; padding: 6px 16px; }
+    .daynav button.on { background: var(--forest) !important; color: white; border-color: var(--forest); }
+    .daynav button.on .wd { color: #cfe0d6; }
+    .daynav button.bog { box-shadow: inset 0 -4px 0 #e2c87e; }
+    .daynav button.salento { box-shadow: inset 0 -4px 0 #b9cf8a; }
+    .daynav button.hike { box-shadow: inset 0 -4px 0 #7fae86; }
+    .daynav button.med { box-shadow: inset 0 -4px 0 #e2b67c; }
+    .daynav button.wed { box-shadow: inset 0 -4px 0 #d98a98; }
+    .daynav button.coffee { box-shadow: inset 0 -4px 0 #c99a5a; }
+    .daynav button.ctg { box-shadow: inset 0 -4px 0 #e59a74; }
+    .daynav button.coast { box-shadow: inset 0 -4px 0 #6fb3b8; }
+
+    header.hero { padding: 30px 0 4px; }
+    .kicker { margin: 0 0 8px; letter-spacing: 0.14em; text-transform: uppercase; font-size: 12px; font-weight: 600; color: var(--clay); }
+    h1 { margin: 0; font-family: var(--serif); font-size: clamp(40px, 6vw, 68px); font-weight: 680; letter-spacing: -0.03em; line-height: 0.95; }
+    h1 em { font-style: italic; color: var(--forest); }
+    h2, h3 { font-family: var(--serif); font-weight: 680; letter-spacing: -0.02em; }
+    .lede { max-width: 72ch; font-size: 18px; color: #3d3228; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+    .chip { background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font-size: 14px; }
+    .chip strong { font-weight: 600; }
+    .note { background: var(--goldbg); border: 1px solid #ead7a4; border-radius: 16px; padding: 14px 18px; max-width: 86ch; }
+    .note strong { color: var(--gold); }
+    .note ul { margin: 6px 0 0; padding-left: 18px; }
+    .panel { background: var(--card); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); }
+
+    .stage { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr); gap: 22px; align-items: start; padding: 22px 0 10px; }
+    .cal { padding: 18px 18px 12px; }
+    .cal-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+    .cal-top h2, .block h2 { margin: 0; }
+    .hint { color: var(--muted); font-size: 13px; margin: 0; }
+    .weekdays, .grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+    .weekdays span { text-align: center; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding-bottom: 4px; }
     .cell {
-      min-height: 78px;
+      min-height: 112px;
       border: 1px solid transparent;
       border-radius: 14px;
       background: #f7f2ea;
@@ -130,419 +115,357 @@
       padding: 8px;
       text-align: left;
       font: inherit;
-      cursor: default;
-    }
-    .cell.on {
-      color: var(--ink);
-      cursor: pointer;
-      border-color: var(--line);
-      background: white;
-    }
-    .cell.on:hover, .cell.on:focus-visible, .cell.on.active {
-      outline: none;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(60, 36, 16, 0.08);
-    }
-    .cell .n { display: block; font-weight: 600; font-size: 15px; }
-    .cell .s { display: block; font-size: 12px; line-height: 1.25; margin-top: 4px; }
-    .cell.bog { background: var(--goldbg); }
-    .cell.hike { background: var(--moss); }
-    .cell.coffee { background: #f6e3c4; }
-    .cell.med { background: var(--sand); }
-    .cell.wed { background: var(--blush); }
-    .cell.ctg { background: #fde8dc; }
-    .cell.coast { background: var(--foam); }
-    .cell.active { border-color: var(--ink); }
-    .switch {
       display: flex;
-      gap: 4px;
-      width: fit-content;
-      margin: 0 0 12px;
-      padding: 4px;
-      background: #f7f2ea;
-      border-radius: 999px;
+      flex-direction: column;
+      gap: 3px;
     }
-    .switch button {
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      font: inherit;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 8px 14px;
-      border-radius: 999px;
-      cursor: pointer;
-    }
-    .switch button[aria-pressed="true"] { background: var(--forest); color: white; }
-    .compare {
-      display: grid;
-      grid-template-columns: 64px 1fr 1fr;
-      gap: 4px 8px;
-      margin: 0 0 14px;
-      font-size: 13px;
-    }
-    .compare .hd {
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding: 4px 2px 0;
-    }
-    .compare button {
-      border: 1px solid var(--line);
-      background: white;
-      border-radius: 10px;
-      text-align: left;
-      padding: 7px 8px;
-      font: inherit;
-      font-size: 13px;
-      line-height: 1.3;
-      cursor: pointer;
-      color: var(--ink);
-    }
-    .compare button.on { border-color: var(--forest); background: var(--moss); }
-    .compare button.coffee.on { background: #f6e3c4; }
-    .detail { margin: 12px 0 18px; padding: 18px 18px 16px; min-height: 220px; }
-    .detail h2 { font-size: 30px; margin: 4px 0 6px; }
-    .where { margin: 0 0 8px; color: var(--muted); }
-    .detail p { margin: 0 0 10px; }
-    .detail h3 {
-      margin: 18px 0 6px;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .detail ul, .checklist ul { margin: 0; padding-left: 18px; }
-    .detail li { margin: 0 0 6px; }
-    .detail ul.book, .checklist ul { list-style: none; padding: 0; }
-    .detail ul.book li { margin: 0 0 10px; }
-    .detail ul.book a, .checklist a { color: var(--sea); text-underline-offset: 3px; }
-    .note-line { display: block; color: var(--muted); font-size: 14px; line-height: 1.45; margin-top: 2px; }
-    .badge {
-      display: inline-block;
-      margin: 0 6px 3px 0;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      vertical-align: 1px;
-    }
-    .badge.now { background: #f3d2c4; color: #7a2d14; }
-    .badge.month { background: #f6e3c4; color: #6b4a12; }
-    .badge.week { background: var(--moss); color: var(--forest); }
-    .badge.day { background: var(--foam); color: var(--sea); }
-    .checklist { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; align-items: start; }
-    .checklist article { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px 6px; }
-    .checklist h3 { margin: 0 0 10px; }
-    .checklist h3 .badge { font-size: 13px; padding: 4px 10px; }
-    .checklist li { display: grid; grid-template-columns: 64px 1fr; gap: 10px; margin: 0 0 12px; }
-    .day-tag {
-      align-self: start;
-      border: 1px solid var(--line);
-      background: white;
-      border-radius: 10px;
-      padding: 3px 6px;
-      font: inherit;
-      font-size: 13px;
-      cursor: pointer;
-      color: var(--ink);
-    }
-    .day-tag:hover { border-color: var(--forest); }
-    .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-    .links a, .textlinks a {
-      display: inline-block;
-      text-decoration: none;
-      background: var(--forest);
-      color: white;
-      border-radius: 999px;
-      padding: 7px 12px;
-      font-size: 14px;
-      font-weight: 500;
-    }
-    .links a.alt { background: white; color: var(--forest); border: 1px solid var(--forest); }
-    .map-wrap { position: sticky; top: 16px; overflow: hidden; }
-    #map { height: 560px; background: #e7efe8; }
+    .cell.on { color: var(--ink); cursor: pointer; border-color: var(--line); background: white; }
+    .cell.on:hover, .cell.on:focus-visible { outline: none; transform: translateY(-1px); box-shadow: 0 8px 18px rgba(60, 36, 16, 0.1); border-color: var(--forest); }
+    .cell .n { font-weight: 600; font-size: 15px; }
+    .cell .s { font-weight: 600; font-size: 13px; line-height: 1.2; }
+    .cell .l { font-size: 12px; line-height: 1.3; color: #4f4337; }
+    .cell.short { min-height: 40px; }
+    .bog { background: var(--goldbg) !important; }
+    .salento { background: var(--leaf) !important; }
+    .hike { background: var(--moss) !important; }
+    .coffee { background: #f6e3c4 !important; }
+    .med { background: var(--sand) !important; }
+    .wed { background: var(--blush) !important; }
+    .ctg { background: #fde8dc !important; }
+    .coast { background: var(--foam) !important; }
+    .map-wrap { position: sticky; top: 84px; overflow: hidden; }
+    #map { height: 640px; background: #e7efe8; }
     .map-cap { margin: 0; padding: 12px 14px 14px; color: var(--muted); font-size: 14px; }
-    .block { padding: 8px 0 28px; }
+
+    .block { padding: 18px 0 18px; }
+    .block > .lede { margin-top: 6px; }
     table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); }
     th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
     th { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: #fbf7f1; }
     tr:last-child td { border-bottom: 0; }
+    td a { white-space: nowrap; }
     .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
     .cards article { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px 16px; }
-    .cards h3 { margin: 0 0 8px; font-family: var(--serif); font-size: 22px; }
+    .cards h3 { margin: 0 0 8px; font-size: 22px; }
     .textlinks { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
-    .textlinks a { background: transparent; color: var(--sea); border: 0; padding: 0; border-radius: 0; text-decoration: underline; text-underline-offset: 3px; }
+    .textlinks a { color: var(--sea); text-underline-offset: 3px; }
     footer { color: var(--muted); font-size: 14px; padding: 8px 0 40px; }
+
+    .badge { display: inline-block; margin: 0 6px 3px 0; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; vertical-align: 1px; }
+    .badge.now { background: #f3d2c4; color: #7a2d14; }
+    .badge.month { background: #f6e3c4; color: #6b4a12; }
+    .badge.week { background: var(--moss); color: var(--forest); }
+    .badge.day { background: var(--foam); color: var(--sea); }
+    .note-line { display: block; color: var(--muted); font-size: 14px; line-height: 1.45; margin-top: 2px; }
+    .checklist { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; align-items: start; }
+    .checklist article { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px 6px; }
+    .checklist h3 { margin: 0 0 10px; }
+    .checklist h3 .badge { font-size: 13px; padding: 4px 10px; }
+    .checklist ul { list-style: none; margin: 0; padding: 0; }
+    .checklist li { display: grid; grid-template-columns: 70px 1fr; gap: 10px; margin: 0 0 12px; }
+    .day-tag { align-self: start; border: 1px solid var(--line); background: white; border-radius: 10px; padding: 3px 6px; font: inherit; font-size: 13px; cursor: pointer; color: var(--ink); }
+    .day-tag:hover { border-color: var(--forest); }
+
+    .dayhead { display: flex; justify-content: space-between; align-items: end; gap: 16px; padding: 24px 0 14px; flex-wrap: wrap; }
+    .dayhead h2 { font-size: clamp(30px, 4vw, 44px); margin: 0; line-height: 1.05; }
+    .dayhead .sleep { margin: 6px 0 0; color: var(--muted); }
+    .stepper { display: flex; gap: 8px; }
+    .stepper button, .slot-nav button {
+      border: 1px solid var(--forest);
+      background: white;
+      color: var(--forest);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .stepper button:disabled, .slot-nav button:disabled { opacity: 0.35; cursor: default; }
+    .daygrid { display: grid; grid-template-columns: 290px minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start; padding-bottom: 40px; }
+    .hours { list-style: none; margin: 0; padding: 8px; }
+    .hours li { display: grid; grid-template-columns: 46px 1fr; gap: 6px; align-items: stretch; min-height: 30px; }
+    .hours .hh { font-size: 12px; color: var(--muted); padding-top: 6px; font-variant-numeric: tabular-nums; }
+    .hours .col { display: flex; flex-direction: column; gap: 3px; padding: 2px 0; border-top: 1px dashed #efe5d7; }
+    .hours li:first-child .col { border-top: 0; }
+    .hours button {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 10px;
+      padding: 5px 8px;
+      text-align: left;
+      font: inherit;
+      font-size: 13px;
+      line-height: 1.25;
+      cursor: pointer;
+      color: var(--ink);
+      border-left: 4px solid var(--forest);
+    }
+    .hours button .tt { display: block; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .hours button.cont { padding: 2px 8px; font-size: 11px; color: var(--muted); background: #fbf8f3; border-color: #efe5d7; border-left-color: #a9c4b3; min-height: 22px; }
+    .hours button.sleep { background: var(--night); border-left-color: #8d87ad; color: #4b4766; }
+    .hours button.sleep.cont { background: #f3f2f8; border-left-color: #c3c0d8; }
+    .hours button.sel { border-color: var(--forest); background: var(--moss); border-left-color: var(--clay); }
+    .hours button.sel.cont { background: #eef5ec; }
+    .slot { padding: 20px 22px 18px; position: sticky; top: 84px; }
+    .slot .when { margin: 0 0 4px; font-size: 13px; font-weight: 600; color: var(--clay); letter-spacing: 0.06em; text-transform: uppercase; }
+    .slot h3 { font-size: 30px; margin: 0 0 4px; line-height: 1.1; }
+    .slot .where { margin: 0 0 12px; color: var(--muted); }
+    .slot p { margin: 0 0 10px; }
+    .slot h4 { margin: 18px 0 6px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-family: var(--sans); }
+    .slot ul { margin: 0; padding-left: 18px; }
+    .slot li { margin: 0 0 6px; }
+    .slot ul.book { list-style: none; padding: 0; }
+    .slot ul.book li { margin: 0 0 10px; }
+    .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .links a { text-decoration: none; background: var(--forest); color: white; border-radius: 999px; padding: 7px 12px; font-size: 14px; font-weight: 500; }
+    .slot-nav { display: flex; justify-content: space-between; gap: 8px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .daymap-wrap { position: sticky; top: 84px; overflow: hidden; }
+    #daymap { height: calc(100vh - 160px); min-height: 460px; background: #e7efe8; }
+    .pin span {
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #f4efe6;
+      border: 2px solid var(--ink);
+      font: 600 12px var(--sans);
+      color: var(--ink);
+    }
+    .pin.on span { background: var(--clay); border-color: var(--clay); color: white; transform: scale(1.25); }
+
+    @media (max-width: 1100px) {
+      .daygrid { grid-template-columns: 260px minmax(0, 1fr); }
+      .daymap-wrap { grid-column: 1 / -1; position: static; }
+      #daymap { height: 420px; }
+    }
     @media (max-width: 900px) {
       .stage, .cards, .checklist { grid-template-columns: 1fr; }
       .map-wrap { position: static; }
       #map { height: 420px; }
-      .cell { min-height: 64px; padding: 6px; }
-      .cell .s { font-size: 11px; }
-      .compare { grid-template-columns: 48px 1fr 1fr; }
+      .cell { min-height: 84px; padding: 6px; }
+      .cell .l { display: none; }
+      .daygrid { grid-template-columns: 1fr; }
+      .slot { position: static; }
+      .hours { max-height: 420px; overflow-y: auto; }
     }
   </style>
 </head>
 <body>
   <div class="flag"></div>
-  <div class="wrap">
-    <header class="hero">
-      <p class="kicker">5–19 December 2026 · 14 nights</p>
-      <h1>Colombia,<br><em>before the wedding.</em></h1>
-      <p class="lede" id="lede">
-        Land in Bogotá on the evening of the 5th. Fly to Salento the next morning and walk for three days
-        from Valle de Cocora to Paramillo del Quindío. Land in Medellín on the afternoon of the 9th,
-        fit the suit that evening and keep the 10th for the wedding. Coffee with friends near Medellín, then Cartagena, Taganga and Tayrona. Home from Bogotá on the 19th.
-      </p>
-      <div class="chips">
-        <span class="chip"><strong>In</strong> Bogotá, 5 Dec evening</span>
-        <span class="chip"><strong>Trek</strong> <span id="trek-chip">6–8 Dec</span></span>
-        <span class="chip"><strong>Medellín</strong> afternoon of the 9th</span>
-        <span class="chip"><strong>Wedding</strong> 10 Dec</span>
-        <span class="chip"><strong>Out</strong> Bogotá, 19 Dec</span>
-      </div>
-      <p class="note" id="hike-note">
-        <strong>The 9th is an afternoon landing either way.</strong>
-        Avianca has one direct Armenia (AXM) → Medellín (MDE), around 15:20, and both versions are back in Salento on the evening of the 8th.
-        The 3-day version starts walking late on Sunday the 6th and summits. The 2-day version uses the 6th for Salento and the briefing, then walks the páramo on the 7th and 8th.
-      </p>
-    </header>
+  <nav class="daynav" aria-label="Days"><div class="wrap" id="daynav"></div></nav>
 
-    <div class="stage">
-      <section>
-        <div class="panel cal">
+  <main class="wrap">
+    <section id="view-overview">
+      <header class="hero">
+        <p class="kicker">5–19 December 2026 · 14 nights</p>
+        <h1>Colombia,<br><em>before the wedding.</em></h1>
+        <p class="lede">
+          Land in Bogotá at 19:35 on the 5th and sleep by the airport. Fly to Armenia at 05:10, spend the day in Salento,
+          then walk three days to the summit of Paramillo del Quindío. A taxi to Pereira that evening and an early flight to Medellín
+          on the 10th for the suit and the pre-wedding dinner. The wedding is on the 11th. Coffee with friends, Comuna 13, then Cartagena,
+          Taganga and Tayrona. Home from Bogotá on the 19th.
+        </p>
+        <div class="chips">
+          <span class="chip"><strong>In</strong> Bogotá, 5 Dec 19:35</span>
+          <span class="chip"><strong>Trek</strong> 7–9 Dec, summit on the 8th</span>
+          <span class="chip"><strong>Suit</strong> pick up 10 Dec, return 12 Dec</span>
+          <span class="chip"><strong>Pre-wedding dinner</strong> 10 Dec</span>
+          <span class="chip"><strong>Wedding</strong> 11 Dec</span>
+          <span class="chip"><strong>Out</strong> Bogotá, 19 Dec</span>
+        </div>
+        <div class="note">
+          <strong>Book these first.</strong>
+          <ul>
+            <li>Páramo Trek summit, 7–9 Dec. Their briefing is at the Salento office before 16:00 on the 6th.</li>
+            <li>The 05:10 Bogotá → Armenia and the 07:10 Pereira → Medellín flights.</li>
+            <li>Casa París for the morning of the 10th.</li>
+            <li>A taxi from Salento to Pereira on the evening of the 9th — the trek ends around 18:00 and the last bus leaves about then.</li>
+          </ul>
+        </div>
+      </header>
+
+      <div class="stage">
+        <section class="panel cal">
           <div class="cal-top">
             <h2>December 2026</h2>
-            <p class="hint">Click a day to see the plan.</p>
-          </div>
-          <div class="switch" role="group" aria-label="Hike length">
-            <button type="button" id="plan-3" aria-pressed="true">3-day summit</button>
-            <button type="button" id="plan-2" aria-pressed="false">2-day páramo</button>
-          </div>
-          <div class="compare" id="compare">
-            <span></span>
-            <span class="hd">3-day</span>
-            <span class="hd">2-day</span>
-            <span class="hd">6 Sun</span>
-            <button type="button" data-plan="3" data-day="6">Fly in, start walking</button>
-            <button type="button" data-plan="2" data-day="6">Salento, briefing</button>
-            <span class="hd">7 Mon</span>
-            <button type="button" data-plan="3" data-day="7">Summit, 4,750 m</button>
-            <button type="button" data-plan="2" data-day="7">Walk up to the farm</button>
-            <span class="hd">8 Tue</span>
-            <button type="button" data-plan="3" data-day="8">Descend to Salento</button>
-            <button type="button" data-plan="2" data-day="8">Descend to Salento</button>
+            <p class="hint">Click a day for the hour-by-hour plan.</p>
           </div>
           <div class="weekdays" aria-hidden="true">
             <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
           </div>
           <div class="grid" id="cal"></div>
-        </div>
-        <article class="panel detail" id="detail" aria-live="polite"></article>
+        </section>
+        <aside class="panel map-wrap">
+          <div id="map" role="img" aria-label="Map of the whole route"></div>
+          <p class="map-cap">The whole route. Flights are drawn straight; Salento → Pereira and Cartagena → Taganga are roads.</p>
+        </aside>
+      </div>
+
+      <section class="block" id="checklist">
+        <h2>Booking checklist</h2>
+        <p class="lede">Everything to book, from every day, sorted by when. Click a date to open that moment of the day.</p>
+        <div class="checklist" id="checklist-groups"></div>
       </section>
-      <aside class="panel map-wrap">
-        <div id="map" role="img" aria-label="Map of the Colombia route"></div>
-        <p class="map-cap" id="mapcap">The line follows the trip. Flights are drawn straight. The Cartagena–Taganga leg is a road.</p>
-      </aside>
-    </div>
 
-    <section class="block" id="checklist">
-      <h2>Booking checklist</h2>
-      <p class="lede">Everything from the day pages in one list, sorted by when to book. It follows the hike switch above. Click a date to open that day.</p>
-      <div class="checklist" id="checklist-groups"></div>
+      <section class="block">
+        <h2>Flights</h2>
+        <p class="lede">Prices are from your search and move, especially in December.</p>
+        <table>
+          <thead><tr><th>Day</th><th>Flight</th><th>Notes</th><th></th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Sat 5 Dec</td>
+              <td>International → Bogotá<br>lands BOG 19:35</td>
+              <td>Sleep at Habitel Select, 1 km from the terminal.</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Sun 6 Dec</td>
+              <td>Bogotá → Armenia<br>BOG 05:10 → AXM 06:10 · Avianca</td>
+              <td>€72. Operated by Avianca Express. Later: 07:35–08:40, and 10:15–11:15 at €93.</td>
+              <td><a href="" data-fare="bogaxm" target="_blank" rel="noopener">Search fares</a></td>
+            </tr>
+            <tr>
+              <td>Thu 10 Dec</td>
+              <td>Pereira → Medellín Olaya Herrera<br>PEI 07:10 → EOH 07:55 · Clic</td>
+              <td>€89. Lands in the city, 15 minutes from El Poblado. Check the bag allowance of the fare. Alternative: Avianca PEI 05:55 → MDE 06:45, €73, which lands 45–60 minutes outside the city (taxi 132,000 COP).</td>
+              <td><a href="" data-fare="peieoh" target="_blank" rel="noopener">Search EOH</a><br><a href="" data-fare="peimde" target="_blank" rel="noopener">Search MDE</a></td>
+            </tr>
+            <tr>
+              <td>Sun 13 Dec</td>
+              <td>Medellín → Cartagena<br>MDE → CTG · about 1h15</td>
+              <td>An afternoon flight, after Comuna 13. Avianca, LATAM, Wingo and JetSMART fly it.</td>
+              <td><a href="" data-fare="mdectg" target="_blank" rel="noopener">Search fares</a></td>
+            </tr>
+            <tr>
+              <td>Fri 18 Dec</td>
+              <td>Santa Marta → Bogotá<br>SMR → BOG · about 1h30</td>
+              <td>An afternoon flight, so the morning is the beach. Frequent directs, usually the cheapest hop.</td>
+              <td><a href="" data-fare="smrbog" target="_blank" rel="noopener">Search fares</a></td>
+            </tr>
+            <tr>
+              <td>Sat 19 Dec</td>
+              <td>Bogotá → home</td>
+              <td>The day plan assumes an evening departure.</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="block">
+        <h2>Where to book</h2>
+        <div class="cards">
+          <article>
+            <h3>Sleep</h3>
+            <div class="textlinks" id="links-sleep"></div>
+          </article>
+          <article>
+            <h3>Trek and transport</h3>
+            <div class="textlinks" id="links-trek"></div>
+          </article>
+          <article>
+            <h3>Medellín and the coast</h3>
+            <div class="textlinks" id="links-rest"></div>
+          </article>
+        </div>
+      </section>
+
+      <footer>Planning draft. Summit day depends on weather. Prices, park rules and flight times change — re-check before you pay.</footer>
     </section>
 
-    <section class="block">
-      <h2>Domestic flights</h2>
-      <p class="lede">National hops only. Fares move, especially in December — open the search and sort by price. Avianca, LATAM, Wingo and JetSMART cover the busy routes. Armenia–Medellín is Avianca only.</p>
-      <table>
-        <thead>
-          <tr><th>Day</th><th>Flight</th><th>Why this one</th><th></th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Sun 6 Dec</td>
-            <td>Bogotá → Armenia<br>BOG → AXM · about 1 hour</td>
-            <td id="flight-6">Earliest Sunday direct. Avianca’s 06:25 often does not run on Sundays, so check LATAM and JetSMART too. You need to be in Salento late morning.</td>
-            <td><a href="https://www.google.com/travel/flights?hl=en&amp;curr=EUR&amp;q=one%20way%20flights%20from%20BOG%20to%20AXM%20on%202026-12-06">Search fares</a></td>
-          </tr>
-          <tr>
-            <td>Wed 9 Dec</td>
-            <td>Armenia → Medellín<br>AXM → MDE · about 1 hour</td>
-            <td>The direct leaves around 15:20. Land in Medellín that afternoon and go to El Poblado.</td>
-            <td><a href="https://www.google.com/travel/flights?hl=en&amp;curr=EUR&amp;q=one%20way%20flights%20from%20AXM%20to%20MDE%20on%202026-12-09">Search fares</a></td>
-          </tr>
-          <tr>
-            <td>Sun 13 Dec</td>
-            <td>Medellín → Cartagena<br>MDE → CTG · about 1h15</td>
-            <td>Several directs a day (Avianca, LATAM, Wingo, JetSMART). A morning flight leaves the afternoon for the Walled City.</td>
-            <td><a href="https://www.google.com/travel/flights?hl=en&amp;curr=EUR&amp;q=one%20way%20flights%20from%20MDE%20to%20CTG%20on%202026-12-13">Search fares</a></td>
-          </tr>
-          <tr>
-            <td>Fri 18 Dec</td>
-            <td>Santa Marta → Bogotá<br>SMR → BOG · about 1h30</td>
-            <td>Last domestic flight. Directs are frequent and usually the cheap ones. Book the afternoon so the morning is still yours. There is no useful direct Cartagena–Santa Marta flight — that leg is by car on the 15th.</td>
-            <td><a href="https://www.google.com/travel/flights?hl=en&amp;curr=EUR&amp;q=one%20way%20flights%20from%20SMR%20to%20BOG%20on%202026-12-18">Search fares</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="block">
-      <h2>Where to book</h2>
-      <div class="cards">
-        <article>
-          <h3>Sleep</h3>
-          <div class="textlinks">
-            <a href="https://booking.hotelcoco.com.co/" target="_blank" rel="noopener">Hotel Coco, Bogotá — 5 Dec</a>
-            <a href="https://www.google.com/maps/search/?api=1&amp;query=hotels%20near%20El%20Dorado%20airport%20Bogota" target="_blank" rel="noopener">Airport hotel, Bogotá — 18 Dec</a>
-            <a href="https://www.elmiradordelcocora.com/" target="_blank" rel="noopener">El Mirador del Cocora, Salento</a>
-            <a href="https://marqueemedellin.com/" target="_blank" rel="noopener">Marquee, Medellín — 9–13 Dec</a>
-            <a href="https://www.clickclackhotel.com/" target="_blank" rel="noopener">Click Clack, Medellín</a>
-            <a href="https://booking.arsenalhotel.com/en/?skip_mobile=1" target="_blank" rel="noopener">Arsenal, Cartagena — 13–15 Dec</a>
-            <a href="https://www.google.com/maps/search/?api=1&amp;query=Taganga+hotels" target="_blank" rel="noopener">Taganga hotels — 15–18 Dec</a>
-          </div>
-        </article>
-        <article>
-          <h3>Trek and parks</h3>
-          <div class="textlinks">
-            <a href="https://sawa.travel/en/tour/paramillo-del-quindio-3-days/" target="_blank" rel="noopener">SAWA — 3-day Paramillo circuit</a>
-            <a href="https://montanascolombianas.com/paramillo-of-quindio-3-days-2-nights/?lang=en" target="_blank" rel="noopener">Montañas Colombianas — 3 days</a>
-            <a href="https://andigena.com/activities/paramo/" target="_blank" rel="noopener">Andígena — 2 days, páramo to about 4,010 m</a>
-            <a href="https://paramotrek.com/en/tour/summit-paramillo-del-quindio/" target="_blank" rel="noopener">Páramo Trek — summit</a>
-            <a href="https://aventurecolombia.com/en/trips/paramillo-del-quindio-from-salento/" target="_blank" rel="noopener">Aventure Colombia</a>
-            <a href="https://www.parquesnacionales.gov.co/nuestros-parques/parque-nacional-natural-los-nevados/" target="_blank" rel="noopener">Los Nevados, official</a>
-            <a href="https://parquetayrona.org/guides/fees-hours-closures/" target="_blank" rel="noopener">Tayrona fees and hours — tickets at the gate on the day</a>
-          </div>
-        </article>
-        <article>
-          <h3>The days you asked for</h3>
-          <div class="textlinks">
-            <a href="https://lau-y-luisfer.my.canva.site/" target="_blank" rel="noopener">Wedding invitation — 10 Dec</a>
-            <a href="https://casaparis.com.co/pages/traje-de-hombre" target="_blank" rel="noopener">Casa París suit rental — fit on 9 Dec</a>
-            <a href="https://www.google.com/maps/search/?api=1&amp;query=Tonight%20alquiler%20de%20trajes%20Carrera%2033%207-69%20Medellin" target="_blank" rel="noopener">Tonight suit rental, Provenza</a>
-            <a href="https://www.guruwalk.com/walks/38407-the-great-poblado-free-tour-from-provenza-to-manila" target="_blank" rel="noopener">Provenza → Manila walking tour</a>
-            <a href="https://www.google.com/maps/search/?api=1&amp;query=Escaleras+Electricas+Comuna+13+Medellin" target="_blank" rel="noopener">Comuna 13</a>
-            <a href="https://www.google.com/maps/search/?api=1&amp;query=Museo+Casa+de+la+Memoria+Medellin" target="_blank" rel="noopener">Casa de la Memoria</a>
-            <a href="https://www.beyondcolombia.com/tours/coffee-tour-medellin-farm-santa-elena/" target="_blank" rel="noopener">Santa Elena coffee farm — 12 Dec</a>
-            <a href="https://www.google.com/maps/search/?api=1&amp;query=Parque+Arvi+Medellin" target="_blank" rel="noopener">Parque Arví cable car</a>
-            <a href="https://www.google.com/maps/dir/?api=1&amp;origin=Getsemani%2C%20Cartagena&amp;destination=Taganga%2C%20Magdalena&amp;travelmode=driving" target="_blank" rel="noopener">Cartagena → Taganga by road</a>
-            <a href="https://www.google.com/maps/search/?api=1&amp;query=scuba+diving+Taganga" target="_blank" rel="noopener">Taganga dive operators</a>
-            <a href="https://www.google.com/maps/dir/Bogot%C3%A1,+Colombia/Salento,+Quind%C3%ADo,+Colombia/Valle+de+Cocora,+Colombia/El+Poblado,+Medell%C3%ADn,+Colombia/Getseman%C3%AD,+Cartagena,+Colombia/Taganga,+Magdalena,+Colombia/Parque+Nacional+Natural+Tayrona,+Colombia/Bogot%C3%A1,+Colombia" target="_blank" rel="noopener">Whole route on Google Maps</a>
-          </div>
-        </article>
+    <section id="view-day" hidden>
+      <header class="dayhead">
+        <div>
+          <p class="kicker" id="day-kicker"></p>
+          <h2 id="day-title"></h2>
+          <p class="sleep" id="day-sleep"></p>
+        </div>
+        <div class="stepper">
+          <button type="button" id="day-prev">← Previous day</button>
+          <button type="button" id="day-next">Next day →</button>
+        </div>
+      </header>
+      <div class="daygrid">
+        <ol class="panel hours" id="hours" aria-label="Hour by hour"></ol>
+        <article class="panel slot" id="slot" aria-live="polite"></article>
+        <aside class="panel daymap-wrap">
+          <div id="daymap" role="img" aria-label="Map of the day"></div>
+          <p class="map-cap" id="daycap"></p>
+        </aside>
       </div>
     </section>
-
-    <footer>
-      Planning draft, not a booking. Summit day depends on weather. Park rules and flight times change — re-check before you pay.
-    </footer>
-  </div>
+  </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="trip.js"></script>
   <script>
-    const cal = document.getElementById("cal");
-    const detail = document.getElementById("detail");
-    const cap = document.getElementById("mapcap");
-    const firstWeekday = 1;
-    for (let i = 0; i < firstWeekday; i++) {
-      const blank = document.createElement("div");
-      blank.className = "cell";
-      blank.setAttribute("aria-hidden", "true");
-      cal.appendChild(blank);
-    }
-    for (let n = 1; n <= 31; n++) {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "cell";
-      const day = DAYS[n];
-      btn.innerHTML = `<span class="n">${n}</span>` + (day ? `<span class="s">${day.short}</span>` : "");
-      if (day) {
-        btn.classList.add("on", day.cls);
-        btn.addEventListener("click", () => select(n));
-      } else {
-        btn.tabIndex = -1;
-        btn.disabled = true;
-      }
-      btn.dataset.day = String(n);
-      cal.appendChild(btn);
-    }
+    const WEEKDAY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const DAY_NUMS = Object.keys(DAYS).map(Number);
+    const pad = (h) => String(h).padStart(2, "0") + ":00";
+    const ext = (href, label) => `<a href="${href}" target="_blank" rel="noopener">${label}</a>`;
 
-    const map = L.map("map", { scrollWheelZoom: false, zoomControl: true }).setView([7.2, -74.6], 6);
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    document.querySelectorAll("[data-fare]").forEach((a) => { a.href = FARES[a.dataset.fare]; });
+
+    const nav = document.getElementById("daynav");
+    nav.innerHTML = `<button type="button" class="ov" data-go="overview">Overview</button>` +
+      DAY_NUMS.map((n) => {
+        const wd = WEEKDAY[new Date(2026, 11, n).getDay()];
+        return `<button type="button" class="${DAYS[n].cls}" data-go="d-${n}" title="${DAYS[n].line}"><span class="wd">${wd}</span><span class="dn">${n}</span></button>`;
+      }).join("");
+    nav.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => { location.hash = b.dataset.go; }));
+
+    const cal = document.getElementById("cal");
+    const firstWeekday = 1;
+    for (let i = 0; i < firstWeekday; i++) cal.insertAdjacentHTML("beforeend", `<div class="cell short" aria-hidden="true"></div>`);
+    for (let n = 1; n <= 31; n++) {
+      const day = DAYS[n];
+      if (day) {
+        cal.insertAdjacentHTML("beforeend",
+          `<button type="button" class="cell on ${day.cls}" data-day="${n}"><span class="n">${n}</span><span class="s">${day.short}</span><span class="l">${day.line}</span></button>`);
+      } else {
+        const short = n < 5 || n > 19;
+        cal.insertAdjacentHTML("beforeend", `<div class="cell${short ? " short" : ""}"><span class="n">${n}</span></div>`);
+      }
+    }
+    cal.querySelectorAll("button[data-day]").forEach((b) => b.addEventListener("click", () => { location.hash = `d-${b.dataset.day}`; }));
+
+    const tiles = () => L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
       maxZoom: 18
-    }).addTo(map);
+    });
+    const pt = (id) => [PLACES[id].lat, PLACES[id].lng];
 
-    function latlngs(ids) {
-      return ids.map((id) => [PLACES[id].lat, PLACES[id].lng]);
-    }
-    const line = L.polyline(latlngs(HIKES["3"].route), { color: "#1d4a38", weight: 3, opacity: 0.85 }).addTo(map);
-
-    const markers = {};
-    Object.entries(PLACES).forEach(([id, p]) => {
-      const marker = L.circleMarker([p.lat, p.lng], {
-        radius: 7, color: "#241910", weight: 2, fillColor: "#f4efe6", fillOpacity: 1
-      }).addTo(map);
-      marker.bindPopup(`<strong>${p.name}</strong>`, { autoPan: false });
-      markers[id] = marker;
+    const map = L.map("map", { scrollWheelZoom: false }).setView([7.4, -74.8], 6);
+    tiles().addTo(map);
+    L.polyline(ROUTE.map(pt), { color: "#1d4a38", weight: 3, opacity: 0.85 }).addTo(map);
+    [...new Set(ROUTE)].forEach((id) => {
+      L.circleMarker(pt(id), { radius: 6, color: "#241910", weight: 2, fillColor: "#f4efe6", fillOpacity: 1 })
+        .bindTooltip(PLACES[id].name).addTo(map);
     });
 
-    let hike = "3";
-    let selected = 5;
-
-    function paintDays() {
-      document.querySelectorAll("#cal button[data-day]").forEach((btn) => {
-        const n = btn.dataset.day;
-        const day = DAYS[n];
-        const active = btn.classList.contains("active");
-        btn.className = "cell";
-        if (!day) return;
-        btn.classList.add("on", day.cls);
-        if (active) btn.classList.add("active");
-        btn.innerHTML = `<span class="n">${n}</span><span class="s">${day.short}</span>`;
-      });
-    }
-
-    function applyHike(which) {
-      hike = which;
-      const plan = HIKES[which];
-      Object.entries(plan.days).forEach(([n, day]) => { DAYS[n] = day; });
-      document.getElementById("lede").textContent = plan.lede;
-      document.getElementById("trek-chip").textContent = plan.chip;
-      document.getElementById("hike-note").innerHTML = plan.note;
-      document.getElementById("flight-6").textContent = plan.flight;
-      document.getElementById("plan-3").setAttribute("aria-pressed", which === "3" ? "true" : "false");
-      document.getElementById("plan-2").setAttribute("aria-pressed", which === "2" ? "true" : "false");
-      document.querySelectorAll("#compare button").forEach((btn) => {
-        btn.classList.toggle("on", btn.dataset.plan === which);
-      });
-      line.setLatLngs(latlngs(plan.route));
-      paintDays();
-      buildChecklist();
-      select(selected);
-    }
+    const daymap = L.map("daymap", { scrollWheelZoom: true }).setView([4.64, -75.57], 12);
+    tiles().addTo(daymap);
+    const dayLayer = L.layerGroup().addTo(daymap);
+    let dayPins = {};
 
     function buildChecklist() {
       const groups = Object.keys(WHEN).map((when) => {
         const rows = [];
-        for (let n = 5; n <= 19; n++) {
-          DAYS[n].book.forEach(([w, what, note, href]) => {
-            if (w !== when || what === "Nothing extra") return;
-            if (rows.some((r) => r.what === what)) return;
-            rows.push({ n, what, note, href });
+        DAY_NUMS.forEach((n) => {
+          DAYS[n].slots.forEach((slot, i) => {
+            (slot.book || []).forEach(([w, what, note, href]) => {
+              if (w === when) rows.push({ n, i, what, note, href });
+            });
           });
-        }
+        });
         const items = rows.map((r) => `
           <li>
-            <button type="button" class="day-tag" data-day="${r.n}">${r.n} Dec</button>
+            <button type="button" class="day-tag" data-go="d-${r.n}-${r.i}">${r.n} Dec</button>
             <div>
-              <strong>${r.href ? `<a href="${r.href}" target="_blank" rel="noopener">${r.what}</a>` : r.what}</strong>
+              <strong>${r.href ? ext(r.href, r.what) : r.what}</strong>
               ${r.note ? `<span class="note-line">${r.note}</span>` : ""}
             </div>
           </li>`).join("");
@@ -550,59 +473,205 @@
       });
       const box = document.getElementById("checklist-groups");
       box.innerHTML = groups.join("");
-      box.querySelectorAll(".day-tag").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          select(Number(btn.dataset.day));
-          document.getElementById("cal").scrollIntoView({ behavior: "smooth", block: "start" });
+      box.querySelectorAll(".day-tag").forEach((b) => b.addEventListener("click", () => { location.hash = b.dataset.go; }));
+    }
+
+    function fillLinks(id, items) {
+      document.getElementById(id).innerHTML = items.map(([label, href]) => ext(href, label)).join("");
+    }
+    fillLinks("links-sleep", [
+      ["Habitel Select, Bogotá airport — 5 and 18 Dec", LINK.habitel],
+      ["El Mirador del Cocora, Salento — 6 Dec", LINK.salentoHotel],
+      ["Ayenda Ceiba Rooms, Pereira airport — 9 Dec", LINK.ceiba],
+      ["Marquee, Medellín — 10–13 Dec", LINK.marquee],
+      ["Click Clack, Medellín", "https://www.clickclackhotel.com/"],
+      ["Arsenal, Cartagena — 13–15 Dec", LINK.arsenal],
+      ["Taganga hotels — 15–18 Dec", LINK.taganga]
+    ]);
+    fillLinks("links-trek", [
+      ["Páramo Trek — Paramillo summit, 3 days", LINK.paramo],
+      ["Montañas Colombianas — Paramillo, 3 days", LINK.montanas],
+      ["Los Nevados national park", LINK.nevados],
+      ["BOG → AXM, 6 Dec", FARES.bogaxm],
+      ["PEI → EOH, 10 Dec", FARES.peieoh],
+      ["Clic fares and bag allowance", LINK.clicBags],
+      ["Check-MIG", LINK.checkmig]
+    ]);
+    fillLinks("links-rest", [
+      ["Wedding invitation", LINK.invitation],
+      ["Casa París suits — 10 and 12 Dec", LINK.casaparis],
+      ["Tonight suit rental, Provenza (backup)", LINK.tonight],
+      ["Santa Elena coffee tour — 12 Dec", LINK.coffee],
+      ["Comuna 13 tours — 13 Dec", LINK.comunaTour],
+      ["MarSol shuttle Cartagena → Santa Marta", LINK.marsol],
+      ["Poseidon Dive Center — 16 Dec", LINK.poseidon],
+      ["Tayrona fees and hours — 17 Dec", LINK.tayronaFees]
+    ]);
+
+    let curDay = null;
+    let curSlot = 0;
+
+    function showOverview() {
+      document.getElementById("view-overview").hidden = false;
+      document.getElementById("view-day").hidden = true;
+      setNav("overview");
+      setTimeout(() => map.invalidateSize(), 50);
+    }
+
+    function setNav(go) {
+      nav.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.go === go));
+      const on = nav.querySelector("button.on");
+      if (on) on.scrollIntoView({ block: "nearest", inline: "nearest" });
+    }
+
+    function showDay(n, slotIndex) {
+      const day = DAYS[n];
+      document.getElementById("view-overview").hidden = true;
+      document.getElementById("view-day").hidden = false;
+      setNav(`d-${n}`);
+      const changed = curDay !== n;
+      curDay = n;
+      document.getElementById("day-kicker").textContent = day.region;
+      document.getElementById("day-title").textContent = day.title;
+      document.getElementById("day-sleep").textContent = `Sleep: ${day.sleep}`;
+      const idx = DAY_NUMS.indexOf(n);
+      document.getElementById("day-prev").disabled = idx === 0;
+      document.getElementById("day-next").disabled = idx === DAY_NUMS.length - 1;
+
+      if (changed) {
+        renderHours(day);
+        drawDayMap(day);
+      }
+      const first = day.slots.findIndex((s) => !s.sleep);
+      selectSlot(slotIndex ?? first, !changed);
+      setTimeout(() => {
+        daymap.invalidateSize();
+        if (changed) focusSlot(day.slots[curSlot], false);
+      }, 50);
+      if (changed) window.scrollTo({ top: 0 });
+    }
+
+    function renderHours(day) {
+      const list = document.getElementById("hours");
+      let html = "";
+      for (let h = 0; h < 24; h++) {
+        const parts = [];
+        day.slots.forEach((s, i) => {
+          if (s.h === h) {
+            parts.push(`<button type="button" data-i="${i}" class="${s.sleep ? "sleep" : ""}"><span class="tt">${s.t}</span>${s.title}</button>`);
+          } else if (s.h < h && s.e > h) {
+            parts.push(`<button type="button" data-i="${i}" class="cont ${s.sleep ? "sleep" : ""}" aria-label="${s.title}, continued">${s.sleep ? "" : "↳ "}${s.title}</button>`);
+          }
         });
+        html += `<li><span class="hh">${pad(h)}</span><div class="col">${parts.join("")}</div></li>`;
+      }
+      list.innerHTML = html;
+      list.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
+        history.replaceState(null, "", `#d-${curDay}-${b.dataset.i}`);
+        selectSlot(Number(b.dataset.i), true);
+      }));
+    }
+
+    function drawDayMap(day) {
+      dayLayer.clearLayers();
+      dayPins = {};
+      const seq = [];
+      day.slots.forEach((s) => {
+        [s.place, s.to].filter(Boolean).forEach((id) => { if (seq[seq.length - 1] !== id) seq.push(id); });
+      });
+      L.polyline(seq.map(pt), { color: "#1d4a38", weight: 3, opacity: 0.75, dashArray: "6 6" }).addTo(dayLayer);
+      let k = 0;
+      seq.forEach((id) => {
+        if (dayPins[id]) return;
+        k += 1;
+        const icon = L.divIcon({ className: "pin", html: `<span>${k}</span>`, iconSize: [26, 26], iconAnchor: [13, 13] });
+        const m = L.marker(pt(id), { icon, title: PLACES[id].name }).bindTooltip(PLACES[id].name).addTo(dayLayer);
+        m.on("click", () => {
+          const i = day.slots.findIndex((s) => s.place === id && !s.sleep);
+          if (i >= 0) {
+            history.replaceState(null, "", `#d-${curDay}-${i}`);
+            selectSlot(i, true);
+          }
+        });
+        dayPins[id] = m;
       });
     }
 
-    document.getElementById("plan-3").addEventListener("click", () => applyHike("3"));
-    document.getElementById("plan-2").addEventListener("click", () => applyHike("2"));
-    document.querySelectorAll("#compare button").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        selected = Number(btn.dataset.day);
-        applyHike(btn.dataset.plan);
+    function focusSlot(slot, animate) {
+      Object.entries(dayPins).forEach(([id, m]) => {
+        const el = m.getElement();
+        if (el) el.classList.toggle("on", id === slot.place || id === slot.to);
       });
-    });
+      if (slot.to) {
+        const b = L.latLngBounds([pt(slot.place), pt(slot.to)]);
+        if (animate) daymap.flyToBounds(b, { padding: [50, 50], duration: 0.8 });
+        else daymap.fitBounds(b, { padding: [50, 50] });
+      } else {
+        const p = PLACES[slot.place];
+        if (animate) daymap.flyTo([p.lat, p.lng], p.z, { duration: 0.8 });
+        else daymap.setView([p.lat, p.lng], p.z);
+      }
+      const name = slot.to ? `${PLACES[slot.place].name} → ${PLACES[slot.to].name}` : PLACES[slot.place].name;
+      document.getElementById("daycap").textContent = `${curDay} Dec · ${slot.t} · ${name}`;
+    }
 
-    function select(n) {
-      const day = DAYS[n];
-      if (!day) return;
-      selected = n;
-      document.querySelectorAll(".cell.on").forEach((el) => el.classList.toggle("active", el.dataset.day === String(n)));
-      const links = day.links.map(([label, href]) =>
-        `<a href="${href}" target="_blank" rel="noopener">${label}</a>`
-      ).join("");
+    function selectSlot(i, animate) {
+      const day = DAYS[curDay];
+      const slot = day.slots[i];
+      if (!slot) return;
+      curSlot = i;
+      document.querySelectorAll("#hours button").forEach((b) => b.classList.toggle("sel", Number(b.dataset.i) === i));
       const list = (items) => `<ul>${items.map((t) => `<li>${t}</li>`).join("")}</ul>`;
-      const book = day.book.map(([when, what, note, href]) => `
+      const book = (slot.book || []).map(([when, what, note, href]) => `
         <li>
           <span class="badge ${when}">${WHEN[when]}</span>
-          <strong>${href ? `<a href="${href}" target="_blank" rel="noopener">${what}</a>` : what}</strong>
+          <strong>${href ? ext(href, what) : what}</strong>
           ${note ? `<span class="note-line">${note}</span>` : ""}
         </li>`).join("");
-      detail.innerHTML = `
-        <p class="kicker">${day.region}</p>
-        <h2>${day.title}</h2>
-        <p class="where">${day.where}</p>
-        ${day.body.map((p) => `<p>${p}</p>`).join("")}
-        <h3>See and do</h3>
-        ${list(day.see)}
-        <h3>Book</h3>
-        <ul class="book">${book}</ul>
-        <h3>Good to know</h3>
-        ${list(day.tips)}
-        <div class="links">${links}</div>`;
-      const p = PLACES[day.place];
-      map.closePopup();
-      map.flyTo([p.lat, p.lng], p.z, { duration: 0.7 });
-      markers[day.place].openPopup();
-      cap.textContent = `${n} Dec · ${p.name}`;
+      const where = slot.to ? `${PLACES[slot.place].name} → ${PLACES[slot.to].name}` : PLACES[slot.place].name;
+      const prev = day.slots.slice(0, i).map((s, j) => j).reverse().find((j) => !day.slots[j].sleep);
+      const next = day.slots.map((s, j) => j).find((j) => j > i && !day.slots[j].sleep);
+      document.getElementById("slot").innerHTML = `
+        <p class="when">${slot.t}</p>
+        <h3>${slot.title}</h3>
+        <p class="where">${where}</p>
+        ${slot.text ? `<p>${slot.text}</p>` : ""}
+        ${slot.see ? `<h4>See and do</h4>${list(slot.see)}` : ""}
+        ${book ? `<h4>Book</h4><ul class="book">${book}</ul>` : ""}
+        ${slot.tips ? `<h4>Good to know</h4>${list(slot.tips)}` : ""}
+        ${slot.links ? `<div class="links">${slot.links.map(([l, h]) => ext(h, l)).join("")}</div>` : ""}
+        <div class="slot-nav">
+          <button type="button" data-j="${prev ?? ""}" ${prev === undefined ? "disabled" : ""}>← Earlier</button>
+          <button type="button" data-j="${next ?? ""}" ${next === undefined ? "disabled" : ""}>Later →</button>
+        </div>`;
+      document.querySelectorAll(".slot-nav button").forEach((b) => b.addEventListener("click", () => {
+        const j = Number(b.dataset.j);
+        history.replaceState(null, "", `#d-${curDay}-${j}`);
+        selectSlot(j, true);
+      }));
+      focusSlot(slot, animate);
     }
 
-    applyHike("3");
-    setTimeout(() => map.invalidateSize(), 200);
+    document.getElementById("day-prev").addEventListener("click", () => {
+      const idx = DAY_NUMS.indexOf(curDay);
+      if (idx > 0) location.hash = `d-${DAY_NUMS[idx - 1]}`;
+    });
+    document.getElementById("day-next").addEventListener("click", () => {
+      const idx = DAY_NUMS.indexOf(curDay);
+      if (idx < DAY_NUMS.length - 1) location.hash = `d-${DAY_NUMS[idx + 1]}`;
+    });
+
+    function route() {
+      const m = location.hash.match(/^#d-(\d+)(?:-(\d+))?$/);
+      if (m && DAYS[Number(m[1])]) {
+        showDay(Number(m[1]), m[2] !== undefined ? Number(m[2]) : undefined);
+      } else {
+        showOverview();
+      }
+    }
+    window.addEventListener("hashchange", route);
+    buildChecklist();
+    route();
   </script>
 </body>
 </html>
