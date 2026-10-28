@@ -311,7 +311,7 @@
 
       <section class="block">
         <h2>Flights</h2>
-        <p class="lede">Prices are from your search and move, especially in December.</p>
+        <p class="lede">Prices are from your search and move, especially in December. Peso amounts include a euro equivalent at about 3,500 COP to €1 (late October 2026).</p>
         <table>
           <thead><tr><th>Day</th><th>Flight</th><th>Notes</th><th></th></tr></thead>
           <tbody>
@@ -330,7 +330,7 @@
             <tr>
               <td>Thu 10 Dec</td>
               <td>Pereira → Medellín Olaya Herrera<br>PEI 07:10 → EOH 07:55 · Clic</td>
-              <td>€89. Lands in the city, 15 minutes from El Poblado. Check the bag allowance of the fare. Alternative: Avianca PEI 05:55 → MDE 06:45, €73, which lands 45–60 minutes outside the city (taxi 132,000 COP).</td>
+              <td>€89. Lands in the city, 15 minutes from El Poblado. Check the bag allowance of the fare. Alternative: Avianca PEI 05:55 → MDE 06:45, €73, which lands 45–60 minutes outside the city (taxi 132,000 COP (€38)).</td>
               <td><a href="" data-fare="peieoh" target="_blank" rel="noopener">Search EOH</a><br><a href="" data-fare="peimde" target="_blank" rel="noopener">Search MDE</a></td>
             </tr>
             <tr>
@@ -404,8 +404,18 @@
   <script>
     const WEEKDAY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const DAY_NUMS = Object.keys(DAYS).map(Number);
+    const COP_PER_EUR = 3500;
     const pad = (h) => String(h).padStart(2, "0") + ":00";
     const ext = (href, label) => `<a href="${href}" target="_blank" rel="noopener">${label}</a>`;
+    const eurosFromCop = (n) => "€" + Math.max(1, Math.round(n / COP_PER_EUR));
+    const withEuros = (s) => {
+      if (!s) return s;
+      return String(s).replace(/(\d{1,3}(?:,\d{3})+)(?:–(\d{1,3}(?:,\d{3})+))? COP(?! \()/g, (_, a, b) => {
+        const from = eurosFromCop(Number(a.replace(/,/g, "")));
+        if (!b) return `${a} COP (${from})`;
+        return `${a}–${b} COP (${from}–${eurosFromCop(Number(b.replace(/,/g, "")))})`;
+      });
+    };
 
     document.querySelectorAll("[data-fare]").forEach((a) => { a.href = FARES[a.dataset.fare]; });
 
@@ -466,7 +476,7 @@
             <button type="button" class="day-tag" data-go="d-${r.n}-${r.i}">${r.n} Dec</button>
             <div>
               <strong>${r.href ? ext(r.href, r.what) : r.what}</strong>
-              ${r.note ? `<span class="note-line">${r.note}</span>` : ""}
+              ${r.note ? `<span class="note-line">${withEuros(r.note)}</span>` : ""}
             </div>
           </li>`).join("");
         return `<article><h3><span class="badge ${when}">${WHEN[when]}</span></h3><ul>${items}</ul></article>`;
@@ -621,12 +631,12 @@
       if (!slot) return;
       curSlot = i;
       document.querySelectorAll("#hours button").forEach((b) => b.classList.toggle("sel", Number(b.dataset.i) === i));
-      const list = (items) => `<ul>${items.map((t) => `<li>${t}</li>`).join("")}</ul>`;
+      const list = (items) => `<ul>${items.map((t) => `<li>${withEuros(t)}</li>`).join("")}</ul>`;
       const book = (slot.book || []).map(([when, what, note, href]) => `
         <li>
           <span class="badge ${when}">${WHEN[when]}</span>
           <strong>${href ? ext(href, what) : what}</strong>
-          ${note ? `<span class="note-line">${note}</span>` : ""}
+          ${note ? `<span class="note-line">${withEuros(note)}</span>` : ""}
         </li>`).join("");
       const where = slot.to ? `${PLACES[slot.place].name} → ${PLACES[slot.to].name}` : PLACES[slot.place].name;
       const prev = day.slots.slice(0, i).map((s, j) => j).reverse().find((j) => !day.slots[j].sleep);
@@ -635,7 +645,7 @@
         <p class="when">${slot.t}</p>
         <h3>${slot.title}</h3>
         <p class="where">${where}</p>
-        ${slot.text ? `<p>${slot.text}</p>` : ""}
+        ${slot.text ? `<p>${withEuros(slot.text)}</p>` : ""}
         ${slot.see ? `<h4>See and do</h4>${list(slot.see)}` : ""}
         ${book ? `<h4>Book</h4><ul class="book">${book}</ul>` : ""}
         ${slot.tips ? `<h4>Good to know</h4>${list(slot.tips)}` : ""}
