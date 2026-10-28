@@ -16,6 +16,10 @@ const PLACES = {
   mde: { name: "José María Córdova airport, Rionegro", lat: 6.1659, lng: -75.4239, z: 12 },
   poblado: { name: "El Poblado · Provenza, Medellín", lat: 6.2088, lng: -75.5655, z: 15 },
   casaparis: { name: "Casa París, Envigado", lat: 6.161, lng: -75.6035, z: 15 },
+  inflexion: { name: "Parque Inflexión, El Poblado", lat: 6.1913, lng: -75.5776, z: 15 },
+  montesacro: { name: "Cementerio Jardines Montesacro, Itagüí", lat: 6.1606, lng: -75.6247, z: 14 },
+  santafe: { name: "Centro Comercial Santafé", lat: 6.1964, lng: -75.5742, z: 15 },
+  memoria: { name: "Museo Casa de la Memoria", lat: 6.24593, lng: -75.55666, z: 15 },
   santaelena: { name: "Santa Elena coffee farms", lat: 6.2105, lng: -75.498, z: 13 },
   arvi: { name: "Parque Arví", lat: 6.2814, lng: -75.5027, z: 13 },
   comuna13: { name: "Comuna 13 escalators", lat: 6.2557, lng: -75.6088, z: 15 },
@@ -77,6 +81,8 @@ const LINK = {
   marquee: "https://marqueemedellin.com/",
   invitation: "https://lau-y-luisfer.my.canva.site/",
   coffee: "https://www.beyondcolombia.com/tours/coffee-tour-medellin-farm-santa-elena/",
+  escobar: "https://www.guruwalk.com/es/a/medellin/v101499-tours-de-pablo-escobar-en-medellin",
+  pobladoWalk: "https://www.guruwalk.com/walks/38407-the-great-poblado-free-tour-from-provenza-to-manila",
   comunaTour: "https://comuna13graffititour.com/guides/comuna-13-tour-cost/",
   arsenal: "https://booking.arsenalhotel.com/en/?skip_mobile=1",
   felipe: "https://fortificacionescartagena.com.co/es/planee-su-visita/castillo-de-san-felipe-de-barajas/",
@@ -351,7 +357,8 @@ const DAYS = {
       {
         t: "12:00", h: 12, e: 16, place: "cocora",
         title: "Back through the forest to Cocora",
-        text: "Down through the cloud forest to the wax palms where you started."
+        text: "Down through the cloud forest to the wax palms where you started. Operators often stop at Acaime for the hummingbirds on this descent.",
+        see: ["Acaime hummingbird reserve — usually included on day 3, no extra trip needed."]
       },
       {
         t: "16:30", h: 16, e: 17, place: "salento",
@@ -389,9 +396,9 @@ const DAYS = {
   },
 
   10: {
-    cls: "med", short: "Medellín", line: "07:10 to Medellín · suit · pre-wedding dinner",
+    cls: "med", short: "Medellín", line: "07:10 to Medellín · suit · Escobar tour · dinner",
     region: "Thursday 10 December · Medellín",
-    title: "Medellín, the suit, the pre-wedding dinner",
+    title: "Medellín, the suit, Pablo Escobar tour",
     sleep: "El Poblado, Medellín",
     slots: [
       { t: "00:00", h: 0, e: 4, place: "ceiba", title: "Sleep", sleep: true, text: "By Pereira airport." },
@@ -417,7 +424,7 @@ const DAYS = {
       {
         t: "08:15", h: 8, e: 9, place: "poblado",
         title: "Taxi to El Poblado, breakfast",
-        text: "About 15 minutes from Olaya Herrera. Drop the bags at the hotel and have breakfast in Provenza.",
+        text: "About 15 minutes from Olaya Herrera. Drop the bags at the hotel, hand the trek clothes to a lavandería (same- or next-day), and have breakfast in Provenza.",
         book: [["now", "Medellín hotel, 10–13 Dec", "Three nights in El Poblado. Ask for early check-in on the 10th.", LINK.marquee]],
         links: [["Marquee Hotel", LINK.marquee], ["Click Clack", "https://www.clickclackhotel.com/"]]
       },
@@ -435,14 +442,21 @@ const DAYS = {
         text: "A few blocks of restaurants and cafés around Carrera 35."
       },
       {
-        t: "13:00", h: 13, e: 16, place: "poblado",
-        title: "Rest, laundry",
-        text: "Three days of trekking and two early mornings. Sleep, and hand the trek clothes to a lavandería — most do same- or next-day service."
+        t: "13:00", h: 13, e: 17, place: "inflexion", to: "montesacro",
+        title: "Pablo Escobar walking tour",
+        text: "A 3–4 hour history tour, usually by van from El Poblado. Typical stops: Parque Inflexión (the old Mónaco building, now a memorial to the victims), then Cementerio Jardines Montesacro in Itagüí. English and Spanish tours run daily; book a day or two ahead. About €20–€40 each.",
+        book: [["week", "Pablo Escobar tour, Thu 10 Dec at 13:00", "GuruWalk has several 3–4 h options. Pick one that starts from El Poblado after lunch, and that treats it as history — Parque Inflexión — rather than a souvenir museum.", LINK.escobar]],
+        tips: [
+          "Many people in Medellín dislike Pablo tourism. A good guide talks about the victims and the city’s later turnaround, not the myth.",
+          "The Excel also listed The Great Poblado Free Tour (Provenza → Manila, 2.5 h, tips only, usually 16:00). That is a neighbourhood walk, not an Escobar tour — use it if you would rather skip Pablo.",
+          "If the suit needs a second fitting, collect it after the tour; Casa París is open until 19:00."
+        ],
+        links: [["Pablo Escobar tours", LINK.escobar], ["Poblado free walk (alternative)", LINK.pobladoWalk], ["Parque Inflexión", MAPS("Parque Inflexion Medellin")]]
       },
       {
-        t: "16:30", h: 16, e: 17, place: "casaparis",
+        t: "17:15", h: 17, e: 18, place: "casaparis",
         title: "Collect the altered suit (if needed)",
-        text: "Only if the alterations weren’t ready this morning."
+        text: "Only if the alterations weren’t ready this morning. Then back to the hotel to shower before dinner."
       },
       {
         t: "19:00", h: 19, e: 23, place: "poblado",
@@ -522,7 +536,8 @@ const DAYS = {
       {
         t: "19:00", h: 19, e: 21, place: "poblado",
         title: "Dinner, pack",
-        text: "Pack tonight. Tomorrow you check out early for Comuna 13."
+        text: "Provenza, or Centro Comercial Santafé if you want a mall (from the Excel list). Pack tonight. Tomorrow you check out early for Comuna 13.",
+        see: ["Santafé mall — large, easy taxi from El Poblado. Skip Plaza Botero; the Excel marked it as not really interesting."]
       },
       { t: "22:00", h: 22, e: 24, place: "poblado", title: "Sleep", sleep: true, text: "" }
     ]
@@ -545,8 +560,12 @@ const DAYS = {
         title: "Comuna 13",
         text: "Metro to San Javier (4,400 COP), then the outdoor escalators, murals and street dancers of a neighbourhood that turned itself around. A local guide tells the story behind the murals. The neighbourhood is free to walk.",
         book: [["week", "Comuna 13 guided tour, Sunday morning", "Shared tours about 35,000–60,000 COP or USD 14–28, about 3 hours.", LINK.comunaTour]],
-        tips: ["Sundays are busy. The morning is calmer than the afternoon.", "Keep your phone in a front pocket in crowds."],
-        links: [["Comuna 13 tours", LINK.comunaTour], ["Comuna 13 on Maps", MAPS("Escaleras Electricas Comuna 13 Medellin")]]
+        see: [
+          "Casa de la Memoria (Parque Bicentenario) — the conflict museum from the Excel list. Only if you skip a long Comuna 13 tour and go via the centre; you have a flight this afternoon.",
+          "Placita de Flórez — historic market in Centro. Same rule: only if you are already downtown."
+        ],
+        tips: ["Sundays are busy. The morning is calmer than the afternoon.", "Keep your phone in a front pocket in crowds.", "Cerro Tusa is a full day south of the city — it does not fit before the Cartagena flight."],
+        links: [["Comuna 13 tours", LINK.comunaTour], ["Comuna 13 on Maps", MAPS("Escaleras Electricas Comuna 13 Medellin")], ["Casa de la Memoria", MAPS("Museo Casa de la Memoria Medellin")]]
       },
       {
         t: "12:30", h: 12, e: 13, place: "poblado",
