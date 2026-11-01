@@ -282,7 +282,7 @@
           <ul>
             <li>Clic Pereira → Medellín, 10 Dec 07:10 — listed in the sheet, not yet ticketed. Check the 5 kg + 12 kg bag limit.</li>
             <li>Air Europa home, 19 Dec 21:35 — times are in the sheet, booking reference still empty.</li>
-            <li>Santa Marta hotel, 14–18 Dec, and the remaining nights (Salento, Pereira, Medellín, Habitel) if they are not in your bookings file.</li>
+            <li>Santa Marta hotel, 14–18 Dec, and the remaining nights (Pereira, Medellín, Habitel) if they are not booked yet.</li>
             <li>A taxi from Salento to Pereira on the evening of the 9th — the trek ends late afternoon and the last bus is tight.</li>
           </ul>
         </div>
@@ -402,7 +402,7 @@
   </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="trip.js?v=booked1"></script>
+  <script src="trip.js?v=casatama"></script>
   <script>
     const WEEKDAY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const DAY_NUMS = Object.keys(DAYS).map(Number);
@@ -493,7 +493,7 @@
     }
     fillLinks("links-sleep", [
       ["Habitel Select, Bogotá airport — 5 and 18 Dec", LINK.habitel],
-      ["El Mirador del Cocora, Salento — 6 Dec", LINK.salentoHotel],
+      ["Casa Tama, Salento — 6–7 Dec (booked)", LINK.casatama],
       ["Ayenda Ceiba Rooms, Pereira airport — 9 Dec", LINK.ceiba],
       ["Marquee, Medellín — 10–13 Dec", LINK.marquee],
       ["Click Clack, Medellín", "https://www.clickclackhotel.com/"],

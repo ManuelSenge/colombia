@@ -3,6 +3,7 @@ const PLACES = {
   habitel: { name: "Habitel Select, by El Dorado", lat: 4.6882, lng: -74.1307, z: 14 },
   axm: { name: "El Edén airport, Armenia", lat: 4.4528, lng: -75.7664, z: 13 },
   salento: { name: "Salento, Plaza de Bolívar", lat: 4.6372, lng: -75.5698, z: 15 },
+  casatama: { name: "Casa Tama, Salento", lat: 4.63899, lng: -75.57182, z: 16 },
   cruz: { name: "Mirador Alto de la Cruz, Salento", lat: 4.6397, lng: -75.5665, z: 16 },
   cocora: { name: "Valle de Cocora", lat: 4.6379, lng: -75.4871, z: 13 },
   forest: { name: "Cloud forest above Cocora (approx.)", lat: 4.668, lng: -75.455, z: 12 },
@@ -75,6 +76,7 @@ const LINK = {
   checkmig: "https://www.migracioncolombia.gov.co/tramites-y-servicios/aplicativos/checkmig",
   habitel: "https://www.habitelhotels.com/select",
   salentoHotel: "https://www.elmiradordelcocora.com/",
+  casatama: "https://www.booking.com/hotel/co/casa-tama.html",
   lionx: "https://lionxadventures.com/paramillo-del-quindio/",
   paramo: "https://paramotrek.com/en/tour/summit-paramillo-del-quindio/",
   montanas: "https://montanascolombianas.com/paramillo-of-quindio-3-days-2-nights/?lang=en",
@@ -146,7 +148,7 @@ const DAYS = {
     cls: "salento", short: "Salento", line: "05:10 to Armenia · Salento · Lion X briefing",
     region: "Sunday 6 December · Salento",
     title: "Fly early, a day in Salento",
-    sleep: "Salento",
+    sleep: "Casa Tama, Salento",
     slots: [
       { t: "00:00", h: 0, e: 3, place: "habitel", title: "Sleep", sleep: true, text: "At Habitel Select." },
       {
@@ -171,16 +173,16 @@ const DAYS = {
         t: "06:15", h: 6, e: 7, place: "axm", to: "salento",
         title: "Armenia airport → Salento",
         text: "Easiest is a taxi or private transfer straight to Salento: 50–60 minutes, about 95,000–120,000 COP for the car. The cheap way is a taxi to the Armenia bus terminal (about 25 minutes), then a buseta to Salento: every 20 minutes from about 05:30, 45–50 minutes, about 5,000–7,000 COP each.",
-        book: [["week", "Transfer Armenia airport → Salento", "Pre-book it (your Salento hotel can send a driver), so someone is waiting at 06:10 on a Sunday."]],
+        book: [["week", "Transfer Armenia airport → Salento", "Ask Casa Tama to send a driver for 06:10 on Sunday, or take a taxi (95,000–120,000 COP for the car)."]],
         tips: ["Outside the cities taxis don’t use meters. Agree the fare before you get in."],
         links: [["Airport → Salento route", "https://www.google.com/maps/dir/?api=1&origin=Aeropuerto%20El%20Ed%C3%A9n%20Armenia&destination=Salento%20Quind%C3%ADo&travelmode=driving"]]
       },
       {
-        t: "07:30", h: 7, e: 9, place: "salento",
-        title: "Bags at the hotel, breakfast",
-        text: "Drop the bags at the hotel and have breakfast on the plaza.",
-        book: [["now", "Salento hotel, night of the 6th", "Ask for early check-in, and to store your big bags from the 7th until you pick them up on the evening of the 9th.", LINK.salentoHotel]],
-        links: [["El Mirador del Cocora", LINK.salentoHotel]]
+        t: "07:30", h: 7, e: 9, place: "casatama",
+        title: "Check in at Casa Tama, breakfast",
+        text: "Carrera 3 #6-24, a few blocks from the plaza. Small boutique house, garden, good beds. Ask for early check-in after the 06:10 landing. Breakfast on the plaza if the hotel breakfast is not ready yet.",
+        book: [["done", "Casa Tama, night of 6–7 Dec", "Carrera 3 #6-24, Salento. Ask them to store the big bags from checkout on the 7th until you collect them on the evening of the 9th, before the taxi to Pereira. WhatsApp +57 315 073 5969.", LINK.casatama]],
+        links: [["Casa Tama", LINK.casatama], ["Maps", MAPS("Casa Tama Carrera 3 6-24 Salento")]]
       },
       {
         t: "09:00", h: 9, e: 11, place: "salento",
@@ -225,7 +227,7 @@ const DAYS = {
         title: "Early dinner",
         text: "Something warm and simple, then back to the hotel."
       },
-      { t: "21:00", h: 21, e: 24, place: "salento", title: "Sleep", sleep: true, text: "Meeting is at 06:00." }
+      { t: "21:00", h: 21, e: 24, place: "casatama", title: "Sleep", sleep: true, text: "Meeting is at 06:00." }
     ]
   },
 
@@ -235,11 +237,11 @@ const DAYS = {
     title: "Trek day 1: Cocora to Buenos Aires",
     sleep: "Finca Buenos Aires, about 3,750 m",
     slots: [
-      { t: "00:00", h: 0, e: 5, place: "salento", title: "Sleep", sleep: true, text: "In Salento." },
+      { t: "00:00", h: 0, e: 5, place: "casatama", title: "Sleep", sleep: true, text: "At Casa Tama." },
       {
-        t: "05:30", h: 5, e: 6, place: "salento",
+        t: "05:30", h: 5, e: 6, place: "casatama",
         title: "Check out, leave the big bags",
-        text: "Leave the big bags at the hotel until the evening of the 9th."
+        text: "Checkout at Casa Tama. Leave the big bags there until the evening of the 9th — confirm storage when you arrive."
       },
       {
         t: "06:00", h: 6, e: 7, place: "salento",
@@ -373,9 +375,9 @@ const DAYS = {
         text: "Lion X’s jeep back to Salento. They close the day with a traditional lunch in town. Aim to be in Salento by late afternoon so you can still reach Pereira tonight."
       },
       {
-        t: "17:30", h: 17, e: 18, place: "salento",
+        t: "17:30", h: 17, e: 18, place: "casatama",
         title: "Collect the bags, quick shower",
-        text: "Pick up the big bags from the hotel. Ask in advance whether you can use a shower — some places do this for a small fee."
+        text: "Pick up the big bags at Casa Tama. Ask in the morning of the 7th whether you can use a shower on the 9th after the trek — some places do this for a small fee even after checkout."
       },
       {
         t: "18:00", h: 18, e: 19, place: "salento",
@@ -386,7 +388,7 @@ const DAYS = {
         t: "19:00–20:15", h: 19, e: 20, place: "salento", to: "ceiba",
         title: "Taxi Salento → Pereira airport",
         text: "About an hour to 1h15. A taxi or private transfer is about 150,000–240,000 COP for the car. The Expreso Alcalá bus to Pereira terminal (about 1 hour, 11,000–14,000 COP) stops running at around 18:30–19:30, which is too tight after the trek.",
-        book: [["week", "Taxi Salento → Pereira, 19:00", "Book through the Salento hotel or Lion X. Agree the fare first."]],
+        book: [["week", "Taxi Salento → Pereira, 19:00", "Book through Casa Tama or Lion X. Agree the fare first."]],
         tips: ["After the August 2026 earthquake, Pereira airport reopened on 26 August with fewer flights. Check that tomorrow’s flight still runs a week before."],
         links: [["Salento → Pereira route", "https://www.google.com/maps/dir/?api=1&origin=Salento%20Quind%C3%ADo&destination=Aeropuerto%20Mateca%C3%B1a%20Pereira&travelmode=driving"]]
       },
