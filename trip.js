@@ -6,7 +6,9 @@ const PLACES = {
   cruz: { name: "Mirador Alto de la Cruz, Salento", lat: 4.6397, lng: -75.5665, z: 16 },
   cocora: { name: "Valle de Cocora", lat: 4.6379, lng: -75.4871, z: 13 },
   forest: { name: "Cloud forest above Cocora (approx.)", lat: 4.668, lng: -75.455, z: 12 },
+  buenosaires: { name: "Finca Buenos Aires, about 3,750 m (approx.)", lat: 4.715, lng: -75.425, z: 12 },
   primavera: { name: "Finca La Primavera, about 3,700 m (approx.)", lat: 4.722, lng: -75.418, z: 12 },
+  laplaya: { name: "Finca La Playa, about 3,750 m (approx.)", lat: 4.725, lng: -75.412, z: 12 },
   wetlands: { name: "Paramillo wetlands, about 4,200 m (approx.)", lat: 4.712, lng: -75.402, z: 13 },
   paramillo: { name: "Paramillo del Quindío, 4,750 m", lat: 4.7107, lng: -75.3925, z: 13 },
   argentina: { name: "Finca La Argentina", lat: 4.7301, lng: -75.4475, z: 13 },
@@ -24,6 +26,8 @@ const PLACES = {
   arvi: { name: "Parque Arví", lat: 6.2814, lng: -75.5027, z: 13 },
   comuna13: { name: "Comuna 13 escalators", lat: 6.2557, lng: -75.6088, z: 15 },
   ctgair: { name: "Rafael Núñez airport, Cartagena", lat: 10.4416, lng: -75.513, z: 14 },
+  cabrero: { name: "Casa Hotel Terraza del Cabrero, El Cabrero", lat: 10.4288, lng: -75.5482, z: 16 },
+  marsoloff: { name: "Transportes Marsol, El Cabrero", lat: 10.4292, lng: -75.5488, z: 16 },
   trinidad: { name: "Plaza de la Trinidad, Getsemaní", lat: 10.4206, lng: -75.5454, z: 16 },
   reloj: { name: "Torre del Reloj, Cartagena", lat: 10.423, lng: -75.5492, z: 16 },
   domingo: { name: "Plaza Santo Domingo, Cartagena", lat: 10.4243, lng: -75.552, z: 17 },
@@ -47,6 +51,7 @@ const PLACES = {
 };
 
 const WHEN = {
+  done: "Booked",
   now: "Book now",
   month: "About a month ahead",
   week: "A few days ahead",
@@ -70,6 +75,7 @@ const LINK = {
   checkmig: "https://www.migracioncolombia.gov.co/tramites-y-servicios/aplicativos/checkmig",
   habitel: "https://www.habitelhotels.com/select",
   salentoHotel: "https://www.elmiradordelcocora.com/",
+  lionx: "https://lionxadventures.com/paramillo-del-quindio/",
   paramo: "https://paramotrek.com/en/tour/summit-paramillo-del-quindio/",
   montanas: "https://montanascolombianas.com/paramillo-of-quindio-3-days-2-nights/?lang=en",
   nevados: "https://www.parquesnacionales.gov.co/nuestros-parques/parque-nacional-natural-los-nevados/",
@@ -85,6 +91,7 @@ const LINK = {
   pobladoWalk: "https://www.guruwalk.com/walks/38407-the-great-poblado-free-tour-from-provenza-to-manila",
   comunaTour: "https://comuna13graffititour.com/guides/comuna-13-tour-cost/",
   arsenal: "https://booking.arsenalhotel.com/en/?skip_mobile=1",
+  cabrero: "https://www.terrazadelcabrero.com/",
   felipe: "https://fortificacionescartagena.com.co/es/planee-su-visita/castillo-de-san-felipe-de-barajas/",
   muhca: "https://muhca.gov.co/visita",
   marsol: "https://www.marsol.com.co/",
@@ -108,7 +115,7 @@ const DAYS = {
         title: "Land at El Dorado",
         text: "International arrival. Immigration and bags usually take 30–60 minutes.",
         book: [
-          ["now", "International flights into and out of Bogotá", "Landing 19:35 on the 5th, out on the 19th."],
+          ["done", "Air Europa FRA → BOG, Sat 5 Dec 10:45–19:35", "Booking XQV4EP (open it on the Air Europa site). 2 backpacks + 2 cabin bags 10 kg. Seats not chosen yet. Manuel is on the booking; Jakob is not — add him, or buy his ticket separately."],
           ["week", "Check-MIG entry form", "Free immigration pre-registration, 72 hours to 1 hour before landing. Officially optional, but airlines sometimes ask for it.", LINK.checkmig]
         ],
         tips: [
@@ -136,7 +143,7 @@ const DAYS = {
   },
 
   6: {
-    cls: "salento", short: "Salento", line: "05:10 to Armenia · Salento · trek briefing",
+    cls: "salento", short: "Salento", line: "05:10 to Armenia · Salento · Lion X briefing",
     region: "Sunday 6 December · Salento",
     title: "Fly early, a day in Salento",
     sleep: "Salento",
@@ -157,7 +164,7 @@ const DAYS = {
         t: "05:10–06:10", h: 5, e: 6, place: "bog", to: "axm",
         title: "Fly Bogotá → Armenia",
         text: "Avianca, operated by Avianca Express. About an hour, direct.",
-        book: [["now", "Bogotá → Armenia, 05:10", "€72 in your search. Later options: 07:35–08:40, and 10:15–11:15 at €93.", FARES.bogaxm]],
+        book: [["done", "Avianca BOG → AXM, Sun 6 Dec 05:10–06:10", "Booking 27XIJY. Seats 11A and 11B. 2 cabin 10 kg + 2 × 23 kg hold. €74.82 each. Manuel is on the booking; Jakob is not.", FARES.bogaxm]],
         links: [["BOG → AXM fares", FARES.bogaxm]]
       },
       {
@@ -193,14 +200,14 @@ const DAYS = {
       },
       {
         t: "14:00", h: 14, e: 16, place: "salento",
-        title: "Trek briefing at Páramo Trek",
-        text: "Páramo Trek asks everyone to come to their Salento office before 16:00 the day before. They check boots, warm and rain gear, settle payment and rent anything missing (first come, first served).",
-        book: [["now", "Páramo Trek — Paramillo summit, 7–9 Dec", "3 days, 2 nights at Finca La Primavera. Includes guide, transport Salento ↔ Cocora, all meals, farm beds, insurance and poles. Listed summit treks run about 980,000–1,420,000 COP per person — ask them for the December price.", LINK.paramo]],
+        title: "Trek briefing with Lion X",
+        text: "Spot reserved with Lion X Adventures for the 3-day Paramillo del Quindío summit, 7–9 Dec. Confirm the meeting point and briefing time on WhatsApp — they are based in Salento. They check boots, warm and rain gear, and what you still need to rent.",
+        book: [["done", "Lion X Adventures — Paramillo summit, 7–9 Dec", "3 days / 2 nights. Guide, meals, farm stays, transport Salento ↔ Cocora, insurance and park permits. Listed at 1,200,000 COP per person. WhatsApp +57 315 774 9977 / +57 316 345 4681. lionxadventuressalento@gmail.com. RNT 199169.", LINK.lionx]],
         tips: [
-          "They ask for no alcohol the day before the trek.",
+          "No alcohol the day before the trek.",
           "Bring: boots, rain jacket and trousers, warm layers for 4,750 m, hat, gloves, headlamp, sun cream, sunglasses, a 30 l+ daypack."
         ],
-        links: [["Páramo Trek", LINK.paramo], ["Los Nevados park", LINK.nevados]]
+        links: [["Lion X Paramillo trek", LINK.lionx], ["Los Nevados park", LINK.nevados]]
       },
       {
         t: "16:00", h: 16, e: 17, place: "salento",
@@ -223,10 +230,10 @@ const DAYS = {
   },
 
   7: {
-    cls: "hike", short: "Trek 1", line: "Cocora → Finca La Primavera, 19 km",
-    region: "Monday 7 December · Los Nevados",
-    title: "Trek day 1: Cocora to La Primavera",
-    sleep: "Finca La Primavera, about 3,700 m",
+    cls: "hike",     short: "Trek 1", line: "Cocora → Finca Buenos Aires, 14 km",
+    region: "Monday 7 December · Los Nevados · Lion X",
+    title: "Trek day 1: Cocora to Buenos Aires",
+    sleep: "Finca Buenos Aires, about 3,750 m",
     slots: [
       { t: "00:00", h: 0, e: 5, place: "salento", title: "Sleep", sleep: true, text: "In Salento." },
       {
@@ -237,7 +244,7 @@ const DAYS = {
       {
         t: "06:00", h: 6, e: 7, place: "salento",
         title: "Meet the guide, breakfast",
-        text: "Páramo Trek office at 06:00, meet the guide, then a breakfast stop."
+        text: "Meet Lion X as they confirmed (usually breakfast in Salento, then the jeep). WhatsApp +57 315 774 9977 if anything is unclear the night before."
       },
       {
         t: "07:00", h: 7, e: 8, place: "cocora",
@@ -257,40 +264,40 @@ const DAYS = {
         text: "A cooked lunch at a mountain farm."
       },
       {
-        t: "13:30", h: 13, e: 16, place: "primavera",
+        t: "13:30", h: 13, e: 16, place: "buenosaires",
         title: "Into the páramo, up to 3,800 m",
         text: "Sub-páramo, then the open páramo with the first frailejones. On a clear afternoon you see the glacier on Nevado del Tolima.",
         see: ["Frailejones — the furry-leaved páramo plants that only grow up here."]
       },
       {
-        t: "16:30", h: 16, e: 18, place: "primavera",
-        title: "Down to Finca La Primavera",
-        text: "The last stretch goes slightly down to the farm, about 3,700 m. Dry clothes on, hot drinks by the wood stove."
+        t: "16:30", h: 16, e: 18, place: "buenosaires",
+        title: "Arrive Finca Buenos Aires",
+        text: "Lion X overnight is at Finca Buenos Aires, about 3,750 m. Dry clothes on, hot drinks, hot-water shower if the farm has one."
       },
       {
-        t: "18:00", h: 18, e: 20, place: "primavera",
+        t: "18:00", h: 18, e: 20, place: "buenosaires",
         title: "Dinner, Noche de las Velitas",
         text: "A dinner cooked by the farm family. Tonight is Noche de las Velitas, when Colombians light candles at dusk — ask your hosts if they light any.",
         tips: ["Nights here drop close to freezing. Sleep in the warm layers."]
       },
-      { t: "20:00", h: 20, e: 24, place: "primavera", title: "Sleep", sleep: true, text: "Summit day starts early." }
+      { t: "20:00", h: 20, e: 24, place: "buenosaires", title: "Sleep", sleep: true, text: "Summit day starts early." }
     ]
   },
 
   8: {
     cls: "hike", short: "Summit", line: "Paramillo del Quindío, 4,750 m · holiday",
-    region: "Tuesday 8 December · Los Nevados · public holiday",
+    region: "Tuesday 8 December · Los Nevados · public holiday · Lion X",
     title: "Trek day 2: the summit",
-    sleep: "Finca La Primavera again",
+    sleep: "Finca La Playa, about 3,750 m",
     slots: [
-      { t: "00:00", h: 0, e: 5, place: "primavera", title: "Sleep", sleep: true, text: "At La Primavera." },
+      { t: "00:00", h: 0, e: 5, place: "buenosaires", title: "Sleep", sleep: true, text: "At Finca Buenos Aires." },
       {
-        t: "05:30", h: 5, e: 6, place: "primavera",
+        t: "05:30", h: 5, e: 6, place: "buenosaires",
         title: "Breakfast",
-        text: "Big breakfast. Today is about 19 km, out and back."
+        text: "Big breakfast. Lion X’s day 2 is the summit push, about 17 km, then down to Finca La Playa."
       },
       {
-        t: "06:30", h: 6, e: 8, place: "primavera",
+        t: "06:30", h: 6, e: 8, place: "buenosaires",
         title: "Through the frailejones",
         text: "Straight into the páramo with wide views of Nevado del Tolima."
       },
@@ -312,17 +319,17 @@ const DAYS = {
         see: ["Santa Isabel and Ruiz glaciers to the north.", "Nevado del Tolima to the south-east."]
       },
       {
-        t: "12:00", h: 12, e: 17, place: "primavera",
-        title: "Back down to La Primavera",
-        text: "Down the scree, back past the wetlands and across the páramo. You usually reach the farm as the sun sets, around 17:30.",
+        t: "12:00", h: 12, e: 17, place: "laplaya",
+        title: "Down to Finca La Playa",
+        text: "Down the scree and across the páramo into Tolima. Lion X sleeps at Finca La Playa, about 3,750 m.",
         tips: ["A headache that gets worse, or nausea, means telling the guide and going down."]
       },
       {
-        t: "18:00", h: 18, e: 20, place: "primavera",
+        t: "18:00", h: 18, e: 20, place: "laplaya",
         title: "Dinner at the farm",
         text: "It is the Inmaculada Concepción holiday down in the towns; up here it is soup and an early night."
       },
-      { t: "20:00", h: 20, e: 24, place: "primavera", title: "Sleep", sleep: true, text: "Last night in the mountains." }
+      { t: "20:00", h: 20, e: 24, place: "laplaya", title: "Sleep", sleep: true, text: "Last night in the mountains." }
     ]
   },
 
@@ -332,14 +339,14 @@ const DAYS = {
     title: "Trek day 3, then Pereira",
     sleep: "Ayenda Ceiba Rooms, by Pereira airport",
     slots: [
-      { t: "00:00", h: 0, e: 5, place: "primavera", title: "Sleep", sleep: true, text: "At La Primavera." },
+      { t: "00:00", h: 0, e: 5, place: "laplaya", title: "Sleep", sleep: true, text: "At Finca La Playa." },
       {
-        t: "05:30", h: 5, e: 6, place: "primavera",
+        t: "05:30", h: 5, e: 6, place: "laplaya",
         title: "Breakfast",
         text: "The longest walking day: about 20 km and 1,900 m of descent."
       },
       {
-        t: "06:30", h: 6, e: 9, place: "primavera",
+        t: "06:30", h: 6, e: 9, place: "laplaya",
         title: "Up to 4,000 m, one last time",
         text: "A climb to the trip’s high point on this route, where the guide talks about the páramos and why they matter for Colombia’s water.",
         see: ["A last view back to Paramillo del Quindío."]
@@ -363,7 +370,7 @@ const DAYS = {
       {
         t: "16:30", h: 16, e: 17, place: "salento",
         title: "Transport to Salento",
-        text: "Private transport back to town. Páramo Trek puts the return at about 18:00 — it can be earlier if the group is quick."
+        text: "Lion X’s jeep back to Salento. They close the day with a traditional lunch in town. Aim to be in Salento by late afternoon so you can still reach Pereira tonight."
       },
       {
         t: "17:30", h: 17, e: 18, place: "salento",
@@ -373,13 +380,13 @@ const DAYS = {
       {
         t: "18:00", h: 18, e: 19, place: "salento",
         title: "Dinner in Salento",
-        text: "Páramo Trek includes a celebration dinner at the end. Keep it short tonight."
+        text: "If lunch with Lion X was late, keep dinner short. You still have the taxi to Pereira."
       },
       {
         t: "19:00–20:15", h: 19, e: 20, place: "salento", to: "ceiba",
         title: "Taxi Salento → Pereira airport",
         text: "About an hour to 1h15. A taxi or private transfer is about 150,000–240,000 COP for the car. The Expreso Alcalá bus to Pereira terminal (about 1 hour, 11,000–14,000 COP) stops running at around 18:30–19:30, which is too tight after the trek.",
-        book: [["week", "Taxi Salento → Pereira, 19:00", "Book through the Salento hotel or Páramo Trek. Agree the fare first."]],
+        book: [["week", "Taxi Salento → Pereira, 19:00", "Book through the Salento hotel or Lion X. Agree the fare first."]],
         tips: ["After the August 2026 earthquake, Pereira airport reopened on 26 August with fewer flights. Check that tomorrow’s flight still runs a week before."],
         links: [["Salento → Pereira route", "https://www.google.com/maps/dir/?api=1&origin=Salento%20Quind%C3%ADo&destination=Aeropuerto%20Mateca%C3%B1a%20Pereira&travelmode=driving"]]
       },
@@ -417,7 +424,7 @@ const DAYS = {
         title: "Fly Pereira → Medellín (Olaya Herrera)",
         text: "Clic Air direct, 45 minutes, €89 in your search. Olaya Herrera is inside the city, 15 minutes from El Poblado. The alternative is Avianca 05:55–06:45 to the main Rionegro airport, €73 — but that one lands 45–60 minutes out of town, with a flat taxi fare of 132,000 COP, and means getting up an hour earlier.",
         book: [
-          ["now", "Pereira → Medellín, 07:10 Clic to Olaya Herrera", "Check the fare: the cheapest (Práctica) includes 5 kg cabin and 12 kg hold, Cercana 17 kg, Flexible 10 + 23 kg. Extra kilos cost about 13,200 COP + VAT each.", FARES.peieoh]
+          ["now", "Pereira → Medellín, 07:10 Clic to Olaya Herrera", "Still open in the flights sheet. Listed €87.46. The cheapest fare is 5 kg cabin + 12 kg hold — add kilos to one checked bag. Seats not booked.", FARES.peieoh]
         ],
         links: [["PEI → EOH fares", FARES.peieoh], ["PEI → MDE fares", FARES.peimde], ["Clic fares and bags", LINK.clicBags]]
       },
@@ -544,10 +551,10 @@ const DAYS = {
   },
 
   13: {
-    cls: "ctg", short: "Cartagena", line: "Comuna 13 · fly to Cartagena",
+    cls: "ctg", short: "Cartagena", line: "Comuna 13 · Wingo 16:10 to Cartagena",
     region: "Sunday 13 December · Medellín → Cartagena",
     title: "Comuna 13, then the coast",
-    sleep: "Getsemaní, Cartagena",
+    sleep: "Casa Hotel Terraza del Cabrero, El Cabrero",
     slots: [
       { t: "00:00", h: 0, e: 7, place: "poblado", title: "Sleep", sleep: true, text: "" },
       {
@@ -575,135 +582,112 @@ const DAYS = {
       {
         t: "13:30", h: 13, e: 15, place: "mde",
         title: "Taxi to Rionegro airport",
-        text: "45–60 minutes up the mountain, about 132,000 COP. Be there 1.5–2 hours before the flight."
+        text: "45–60 minutes up the mountain, about 132,000 COP. Be there 1.5–2 hours before the 16:10 Wingo flight."
       },
       {
-        t: "~16:00", h: 16, e: 17, place: "mde", to: "ctgair",
+        t: "16:10–17:22", h: 16, e: 17, place: "mde", to: "ctgair",
         title: "Fly Medellín → Cartagena",
-        text: "About 1h15, direct. Avianca, LATAM, Wingo and JetSMART all fly it — pick an afternoon flight.",
-        book: [["now", "Medellín → Cartagena, Sun 13 Dec afternoon", "Fares move a lot in December.", FARES.mdectg]],
-        links: [["MDE → CTG fares", FARES.mdectg]]
+        text: "Wingo, 1h12. Seats 28E and 28F. 2 cabin bags 12 kg and 1 × 23 kg hold between you. €60.01 each.",
+        book: [["done", "Wingo MDE → CTG, Sun 13 Dec 16:10–17:22", "Giulia J3FUGJ, Manuel X9Y6X6. Seats 28E, 28F.", FARES.mdectg]],
+        links: [["MDE → CTG", FARES.mdectg]]
       },
       {
-        t: "17:30", h: 17, e: 18, place: "trinidad",
-        title: "Taxi to Getsemaní, check in",
-        text: "15 minutes from the airport.",
-        book: [["now", "Cartagena hotel, 13–15 Dec", "Getsemaní or the Walled City, both walkable. December is peak season.", LINK.arsenal]],
-        links: [["Arsenal Hotel", LINK.arsenal]]
+        t: "17:45", h: 17, e: 19, place: "cabrero",
+        title: "Taxi to Casa Hotel Terraza del Cabrero",
+        text: "About 10 minutes, 3 km from the airport. Carrera 2 #43-43, El Cabrero, on the sea. Check-in from 14:00. The walled city is a 10-minute walk; Marsol’s office is next door for tomorrow’s 16:00 bus.",
+        book: [["done", "Casa Hotel Terraza del Cabrero, 13–14 Dec", "Carrera 2 #43-43, El Cabrero. Terrace over the sea, 650 m from the walls. +57 322 248 4596, terrazadelcabrero@gmail.com.", LINK.cabrero]],
+        links: [["Terraza del Cabrero", LINK.cabrero], ["Maps", MAPS("Casa Hotel Terraza del Cabrero Cartagena")]]
       },
       {
-        t: "19:00", h: 19, e: 20, place: "trinidad",
-        title: "Plaza de la Trinidad",
-        text: "Getsemaní’s square in the evening: street food, music, everyone on the church steps."
-      },
-      {
-        t: "20:00", h: 20, e: 22, place: "domingo",
+        t: "19:30", h: 19, e: 22, place: "domingo",
         title: "Walled City at night",
-        text: "In through the Torre del Reloj gate, then Plaza Santo Domingo with Botero’s reclining Gertrudis. Dinner in the old town.",
+        text: "Walk along the sea to the walls, in through the gates, Plaza Santo Domingo, then Getsemaní if you still have energy. Dinner in the old town.",
         tips: ["Restaurants on Plaza Santo Domingo charge more. Two streets over is cheaper."]
       },
-      { t: "23:00", h: 23, e: 24, place: "trinidad", title: "Sleep", sleep: true, text: "" }
+      { t: "23:00", h: 23, e: 24, place: "cabrero", title: "Sleep", sleep: true, text: "Checkout 11:00. Bags can wait at reception until the 16:00 bus." }
     ]
   },
 
   14: {
-    cls: "ctg", short: "Old town", line: "San Felipe · walls · Getsemaní",
-    region: "Monday 14 December · Cartagena",
-    title: "Fort, walls, Getsemaní",
-    sleep: "Getsemaní, Cartagena",
+    cls: "ctg", short: "Old town", line: "San Felipe · Marsol 16:00 to Santa Marta",
+    region: "Monday 14 December · Cartagena → Santa Marta",
+    title: "Fort, then the Marsol bus",
+    sleep: "Santa Marta historic centre",
     slots: [
-      { t: "00:00", h: 0, e: 6, place: "trinidad", title: "Sleep", sleep: true, text: "" },
+      { t: "00:00", h: 0, e: 6, place: "cabrero", title: "Sleep", sleep: true, text: "At Terraza del Cabrero." },
       {
         t: "07:00", h: 7, e: 9, place: "felipe",
         title: "Castillo San Felipe",
-        text: "The fort that was never taken: tunnels, ramparts and views over the old town. Opens 7:00, 38,000 COP, about 2 hours.",
+        text: "A short taxi or a 15-minute walk from El Cabrero. Opens 7:00, 38,000 COP, about 2 hours. Do this first — the bus leaves at 16:00.",
         book: [["day", "Castillo San Felipe ticket", "At the gate, or online on the official site.", LINK.felipe]],
         tips: ["Go at opening. After 10:00 the heat on the ramparts is hard work."],
         links: [["San Felipe", LINK.felipe]]
       },
       {
-        t: "09:30", h: 9, e: 10, place: "trinidad",
-        title: "Breakfast in Getsemaní",
-        text: "Juice, arepas, coffee."
-      },
-      {
-        t: "10:30", h: 10, e: 12, place: "inquisicion",
-        title: "Palacio de la Inquisición",
-        text: "The city’s history museum on Plaza de Bolívar. Monday–Saturday 9:00–18:00.",
+        t: "09:30", h: 9, e: 12, place: "inquisicion",
+        title: "Walled City",
+        text: "Breakfast, then Plaza de Bolívar and the Palacio de la Inquisición (Monday–Saturday 9:00–18:00). Keep it to the morning.",
         links: [["Museo Histórico", LINK.muhca]]
       },
       {
-        t: "12:00", h: 12, e: 15, place: "trinidad",
-        title: "Lunch and siesta",
-        text: "The hottest hours. Lunch, then back to the hotel or a pool."
+        t: "12:00", h: 12, e: 14, place: "cabrero",
+        title: "Lunch, checkout",
+        text: "Hotel checkout is 11:00; leave the bags at reception if you are still in the old town. Lunch near the hotel or on the walls. Skip a long siesta — you need to be at Marsol before 16:00."
       },
       {
-        t: "15:30", h: 15, e: 16, place: "bovedas",
-        title: "Las Bóvedas",
-        text: "23 vaults built into the wall, now craft shops."
+        t: "15:15", h: 15, e: 16, place: "marsoloff",
+        title: "Walk to Transportes Marsol",
+        text: "The office is on the same street as the hotel: Carrera 2 #43-111, El Cabrero (also listed as Cra 1 #43-115). Be there 30–45 minutes before departure with the booking and ID."
       },
       {
-        t: "16:30", h: 16, e: 18, place: "baluarte",
-        title: "Walk the walls to sunset",
-        text: "Along the top of the walls to the Baluarte de Santo Domingo. Sunset is around 17:45. Free."
+        t: "16:00–21:00", h: 16, e: 21, place: "marsoloff", to: "santamarta",
+        title: "Marsol bus Cartagena → Santa Marta",
+        text: "Booked: Transportes Marsol office, Cartagena, 16:00, arrive Santa Marta 21:00. About 5 hours via Barranquilla, air-conditioned coach, one stop. Keep valuables at your feet.",
+        book: [["done", "Marsol bus, Mon 14 Dec 16:00–21:00", "Cartagena Marsol office → Santa Marta. Confirm the drop-off (centro, Cra 4 #23-49, or Rodadero) the day before.", LINK.marsol]],
+        tips: ["The last Marsol Cartagena–Santa Marta listed departure is 16:00 — this is that bus. Do not cut it fine."],
+        links: [["Marsol", LINK.marsol], ["Office on Maps", MAPS("Transportes Marsol Carrera 2 43 Cartagena")]]
       },
       {
-        t: "18:30", h: 18, e: 20, place: "trinidad",
-        title: "Getsemaní murals",
-        text: "Calle de la Sierpe and Calle de la Media Luna, then the Plaza de la Trinidad again."
+        t: "21:15", h: 21, e: 22, place: "santamarta",
+        title: "Taxi to the hotel, check in",
+        text: "Late arrival. Santa Marta historic centre is 15–20 minutes from Taganga; the dive shops are there for Wednesday. Hotel for these nights is still to confirm.",
+        book: [["now", "Santa Marta hotel, 14–18 Dec", "Centre / Parque de los Novios if you want restaurants; Taganga if you want to walk to the boat on the 16th."]]
       },
-      {
-        t: "20:00", h: 20, e: 22, place: "trinidad",
-        title: "Dinner",
-        text: "If you want a special dinner: Celele, a Caribbean tasting menu.",
-        book: [["week", "Celele, Mon 14 Dec", "Reserve a few days ahead."]]
-      },
-      {
-        t: "22:00", h: 22, e: 24, place: "trinidad", title: "Sleep", sleep: true, text: "",
-        book: [["week", "Cartagena → Taganga transfer, Tue 15 Dec", "Easiest is a private transfer, door to door. The middle option is the MarSol shuttle: hourly 6:00–16:00, about 95,000 COP each, confirm hotel pickup. Cheapest is Berlinastur from its Marbella terminal: every 15 minutes, about 80,000 COP, tickets only at the station.", LINK.marsol]]
-      }
+      { t: "22:30", h: 22, e: 24, place: "santamarta", title: "Sleep", sleep: true, text: "" }
     ]
   },
 
   15: {
-    cls: "coast", short: "Taganga", line: "Road to Taganga · Santa Marta sunset",
-    region: "Tuesday 15 December · Cartagena → Taganga",
-    title: "Five hours along the coast",
-    sleep: "Taganga",
+    cls: "coast", short: "Santa Marta", line: "Bay, Taganga, dive-shop drop-in",
+    region: "Tuesday 15 December · Santa Marta",
+    title: "Santa Marta and Taganga",
+    sleep: "Santa Marta historic centre",
     slots: [
-      { t: "00:00", h: 0, e: 7, place: "trinidad", title: "Sleep", sleep: true, text: "" },
+      { t: "00:00", h: 0, e: 8, place: "santamarta", title: "Sleep", sleep: true, text: "You arrived at 21:00 last night." },
       {
-        t: "08:00", h: 8, e: 9, place: "trinidad",
-        title: "Breakfast, check out",
-        text: "There is no direct flight to Santa Marta, so this leg is by road via Barranquilla."
+        t: "09:00", h: 9, e: 12, place: "santamarta",
+        title: "Slow morning in the centre",
+        text: "Parque de los Novios, the cathedral, the Malecón. You already did the five-hour road yesterday."
       },
       {
-        t: "09:00–14:30", h: 9, e: 14, place: "trinidad", to: "taganga",
-        title: "Cartagena → Taganga by road",
-        text: "About 5 hours. Leave in the morning to arrive in daylight.",
-        tips: ["Keep valuables in the bag at your feet on shuttles."],
-        links: [["Driving route", "https://www.google.com/maps/dir/?api=1&origin=Getsemani%2C%20Cartagena&destination=Taganga%2C%20Magdalena&travelmode=driving"], ["MarSol", LINK.marsol]]
+        t: "12:30", h: 12, e: 16, place: "taganga",
+        title: "Taxi to Taganga, the bay",
+        text: "15–20 minutes, about 15,000–30,000 COP. Walk the bay, look at the dive shops (Poseidon Calle 18 #1-69, Ocean Lovers Calle 15 #1b-14), confirm tomorrow’s two-tank / Discover Scuba.",
+        links: [["Poseidon", LINK.poseidon], ["Ocean Lovers", "https://oceanloverstaganga.com/"]]
       },
       {
-        t: "14:30", h: 14, e: 16, place: "taganga",
-        title: "Check in, the bay",
-        text: "Taganga is small and walkable: the bay, the fishing boats, the dive shops.",
-        book: [["now", "Taganga hotel, 15–18 Dec", "Three nights, close to the dive shops.", LINK.taganga]],
-        links: [["Taganga hotels", LINK.taganga]]
-      },
-      {
-        t: "16:30", h: 16, e: 18, place: "santamarta",
-        title: "Santa Marta waterfront at sunset",
-        text: "15 minutes by taxi. The Malecón, the cathedral and Parque de los Novios. Sunset around 17:40."
+        t: "16:30", h: 16, e: 18, place: "playagrande",
+        title: "Playa Grande",
+        text: "A short boat from Taganga, or the hill path. Swim, then back before dark."
       },
       {
         t: "19:00", h: 19, e: 21, place: "santamarta",
         title: "Dinner around Parque de los Novios",
-        text: "Then a taxi back to Taganga.",
-        tips: ["Taganga is quiet after dark away from the seafront. Take a taxi back at night."]
+        text: "Taxi back to Santa Marta if you are sleeping in the centre.",
+        tips: ["If you sleep in Taganga, eat on the bay and take a taxi after dark away from the seafront."]
       },
       {
-        t: "21:30", h: 21, e: 24, place: "taganga", title: "Sleep", sleep: true, text: "",
+        t: "21:30", h: 21, e: 24, place: "santamarta", title: "Sleep", sleep: true, text: "",
         book: [["week", "Taxi to El Zaino for Thu 17 Dec, 06:00", "About 80,000–100,000 COP from Santa Marta or Taganga, 45–60 minutes."]]
       }
     ]
@@ -713,13 +697,18 @@ const DAYS = {
     cls: "coast", short: "Dive", line: "Two dives on the Tayrona coast",
     region: "Wednesday 16 December · Taganga",
     title: "Scuba on the Tayrona coast",
-    sleep: "Taganga",
+    sleep: "Santa Marta historic centre",
     slots: [
-      { t: "00:00", h: 0, e: 7, place: "taganga", title: "Sleep", sleep: true, text: "" },
+      { t: "00:00", h: 0, e: 6, place: "santamarta", title: "Sleep", sleep: true, text: "" },
+      {
+        t: "06:45", h: 6, e: 7, place: "santamarta", to: "taganga",
+        title: "Taxi to Taganga",
+        text: "15–20 minutes. Shops want you around 7:30–7:45."
+      },
       {
         t: "07:30", h: 7, e: 8, place: "taganga",
         title: "Check in at the dive shop",
-        text: "Paperwork, kit fitting, briefing. Poseidon is at Calle 18 #1-69 and opens at 7:00.",
+        text: "Paperwork, kit fitting, briefing. Poseidon is at Calle 18 #1-69 and opens at 7:00. Unlicensed diver: Discover Scuba, two ocean dives to 12 m, same boat.",
         tips: ["Bring your certification card and logbook. If your last dive was long ago, ask for a refresher."]
       },
       {
@@ -750,7 +739,7 @@ const DAYS = {
         title: "Early dinner",
         text: "Buy water and snacks for Tayrona tonight."
       },
-      { t: "21:00", h: 21, e: 24, place: "taganga", title: "Sleep", sleep: true, text: "Alarm 05:30." }
+      { t: "21:00", h: 21, e: 24, place: "santamarta", title: "Sleep", sleep: true, text: "Alarm 05:30. Taxi home from Taganga after dinner." }
     ]
   },
 
@@ -758,17 +747,17 @@ const DAYS = {
     cls: "coast", short: "Tayrona", line: "Tayrona: Arrecifes, La Piscina, Cabo San Juan",
     region: "Thursday 17 December · Tayrona",
     title: "One full day in Tayrona",
-    sleep: "Taganga",
+    sleep: "Santa Marta historic centre",
     slots: [
-      { t: "00:00", h: 0, e: 5, place: "taganga", title: "Sleep", sleep: true, text: "" },
+      { t: "00:00", h: 0, e: 5, place: "santamarta", title: "Sleep", sleep: true, text: "" },
       {
-        t: "05:30", h: 5, e: 6, place: "taganga",
+        t: "05:30", h: 5, e: 6, place: "santamarta",
         title: "Wake, pack the day bag",
         text: "Passport, cash, water, swimwear, mosquito repellent, sun cream.",
         tips: ["Leave single-use plastic and alcohol behind — bags are checked at the gate."]
       },
       {
-        t: "06:00", h: 6, e: 7, place: "taganga", to: "zaino",
+        t: "06:00", h: 6, e: 7, place: "santamarta", to: "zaino",
         title: "Taxi to El Zaino",
         text: "45–60 minutes east along the coast road. The bus from Santa Marta market costs about 9,000 COP and takes an hour, every 15–20 minutes from 6:00."
       },
@@ -806,53 +795,48 @@ const DAYS = {
         text: "Same trail back, then the shuttle to the gate. Buses back to Santa Marta run until about 18:30."
       },
       {
-        t: "17:30", h: 17, e: 19, place: "taganga",
-        title: "Back in Taganga",
-        text: "Shower, dinner by the bay."
+        t: "17:30", h: 17, e: 19, place: "santamarta",
+        title: "Back in Santa Marta",
+        text: "Shower, dinner around Parque de los Novios."
       },
-      { t: "21:00", h: 21, e: 24, place: "taganga", title: "Sleep", sleep: true, text: "" }
+      { t: "21:00", h: 21, e: 24, place: "santamarta", title: "Sleep", sleep: true, text: "" }
     ]
   },
 
   18: {
-    cls: "bog", short: "To Bogotá", line: "Beach morning · fly to Bogotá",
+    cls: "bog", short: "To Bogotá", line: "Beach morning · Avianca 13:20 to Bogotá",
     region: "Friday 18 December · Santa Marta → Bogotá",
     title: "Last flight inside Colombia",
     sleep: "Habitel Select, by El Dorado",
     slots: [
-      { t: "00:00", h: 0, e: 7, place: "taganga", title: "Sleep", sleep: true, text: "" },
+      { t: "00:00", h: 0, e: 7, place: "santamarta", title: "Sleep", sleep: true, text: "" },
       {
-        t: "08:00", h: 8, e: 9, place: "taganga",
+        t: "08:00", h: 8, e: 9, place: "santamarta",
         title: "Breakfast",
-        text: "Slow morning."
+        text: "Slow morning. Flight is 13:20."
       },
       {
         t: "09:00", h: 9, e: 11, place: "playagrande",
         title: "Last swim at Playa Grande",
-        text: "Then pack the wet dive and beach things in a separate bag."
+        text: "Only if you skip the swim — you need to be at SMR about 11:30. Then pack the wet things in a separate bag."
       },
       {
-        t: "12:00", h: 12, e: 13, place: "taganga",
-        title: "Check out, lunch",
-        text: ""
+        t: "11:00", h: 11, e: 12, place: "santamarta",
+        title: "Check out, taxi to SMR",
+        text: "The airport is south of the city, 30–45 minutes from the centre, longer from Taganga.",
+        book: [["week", "Taxi to Santa Marta airport", "Your hotel can book it. Be at SMR about 11:30 for the 13:20 Avianca."]]
       },
       {
-        t: "13:00", h: 13, e: 14, place: "smr",
-        title: "Taxi to Santa Marta airport",
-        text: "Allow 45 minutes. The airport is south of the city.",
-        book: [["week", "Taxi Taganga → Santa Marta airport", "Your hotel can book it."]]
-      },
-      {
-        t: "~15:00", h: 15, e: 16, place: "smr", to: "bog",
+        t: "13:20–14:50", h: 13, e: 15, place: "smr", to: "bog",
         title: "Fly Santa Marta → Bogotá",
-        text: "About 1h30, direct and frequent — usually the cheapest hop of the trip.",
-        book: [["now", "Santa Marta → Bogotá, Fri 18 Dec afternoon", "", FARES.smrbog]],
-        links: [["SMR → BOG fares", FARES.smrbog]]
+        text: "Avianca, 1h30. Seats 15A and 15B. 2 cabin 10 kg + 2 × 23 kg hold. €91.70 each.",
+        book: [["done", "Avianca SMR → BOG, Fri 18 Dec 13:20–14:50", "Booking 2NJ3BB. Seats 15A, 15B.", FARES.smrbog]],
+        links: [["SMR → BOG", FARES.smrbog]]
       },
       {
-        t: "17:00", h: 17, e: 18, place: "habitel",
+        t: "15:15", h: 15, e: 16, place: "habitel",
         title: "Shuttle to Habitel Select",
-        text: "Same hotel as the first night, same free shuttle.",
+        text: "Land 14:50. Same hotel as the first night, same free shuttle.",
         book: [["now", "Habitel Select, night of the 18th", "", LINK.habitel]],
         tips: ["Bogotá will feel cold after the coast. Keep a jumper in the hand luggage."]
       },
@@ -866,7 +850,7 @@ const DAYS = {
   },
 
   19: {
-    cls: "bog", short: "Home", line: "Museo del Oro · fly home",
+    cls: "bog", short: "Home", line: "Museo del Oro · Air Europa 21:35",
     region: "Saturday 19 December · Bogotá",
     title: "Bogotá, then home",
     sleep: "On the plane",
@@ -896,26 +880,27 @@ const DAYS = {
       {
         t: "14:00", h: 14, e: 15, place: "monserrate",
         title: "Monserrate (optional)",
-        text: "Cable car or funicular up to 3,150 m for the view over the city. Skip it if the flight is early."
+        text: "Cable car or funicular up to 3,150 m for the view over the city. The flight is 21:35, so there is time if the weather is clear."
       },
       {
-        t: "16:00", h: 16, e: 17, place: "habitel",
+        t: "17:30", h: 17, e: 18, place: "habitel",
         title: "Bags, airport",
-        text: "Collect the bags. Be at the airport 3 hours before an international flight.",
+        text: "Collect the bags. Be at El Dorado about 18:30, three hours before the 21:35 Air Europa.",
         book: [["week", "Check-MIG exit form", "72 hours to 1 hour before the flight home.", LINK.checkmig]],
         tips: ["Keep some pesos for the taxi; change the rest before security."]
       },
       {
-        t: "Evening", h: 19, e: 21, place: "bog",
-        title: "Fly home",
-        text: "Your international flight. The times here assume an evening departure — move the afternoon if it leaves earlier."
+        t: "21:35", h: 21, e: 24, place: "bog",
+        title: "Fly Bogotá → Frankfurt",
+        text: "Air Europa, overnight, lands FRA 17:55 on Sunday 20 Dec. Booking not filled in the flights sheet yet — same trip as the inbound XQV4EP if it is a return.",
+        book: [["now", "Air Europa BOG → FRA, Sat 19 Dec 21:35", "Lands Sunday 17:55. Add the booking reference to the flights sheet."]]
       }
     ]
   }
 };
 
 const ROUTE = [
-  "bog", "axm", "salento", "cocora", "primavera", "paramillo", "primavera", "argentina", "cocora", "salento",
-  "pei", "eoh", "poblado", "santaelena", "poblado", "mde", "ctgair", "trinidad", "taganga", "zaino", "cabo",
-  "taganga", "smr", "bog"
+  "bog", "axm", "salento", "cocora", "buenosaires", "paramillo", "laplaya", "cocora", "salento",
+  "pei", "eoh", "poblado", "santaelena", "poblado", "mde", "ctgair", "cabrero", "marsoloff", "santamarta",
+  "taganga", "zaino", "cabo", "santamarta", "smr", "bog"
 ];
